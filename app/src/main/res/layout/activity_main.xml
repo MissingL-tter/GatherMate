@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.gathermate_20.MainActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GatherMate"
+        android:textSize="36sp"
+        tools:layout_editor_absoluteX="86dp"
+        tools:layout_editor_absoluteY="171dp"
+        android:layout_above="@+id/loginGoogleSignInButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="89dp" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/loginGoogleSignInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="googleSignInClick"
+        tools:layout_editor_absoluteX="125dp"
+        tools:layout_editor_absoluteY="357dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="139dp" />
+
+</android.widget.RelativeLayout>

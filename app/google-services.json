@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "555980679735",
+    "firebase_url": "https://gathermate2.firebaseio.com",
+    "project_id": "gathermate2",
+    "storage_bucket": "gathermate2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555980679735:android:2759ff9efc5c5f05",
+        "android_client_info": {
+          "package_name": "com.example.android.gathermate_20"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555980679735-h67sllscsl3h2bvqr4ie2ep0dol8a4k0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxZCGrI9rkcMDZnipjqI9MMIswRGAzwso"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
