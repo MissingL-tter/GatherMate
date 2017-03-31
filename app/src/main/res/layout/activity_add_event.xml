@@ -15,7 +15,6 @@
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="71dp"
         tools:layout_editor_absoluteY="16dp"
-        android:layout_marginTop="29dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -28,10 +27,10 @@
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="71dp"
         tools:layout_editor_absoluteY="85dp"
-        android:layout_marginTop="78dp"
         android:layout_below="@+id/addEventDescriptionEditText"
         android:layout_alignLeft="@+id/addEventDescriptionEditText"
-        android:layout_alignStart="@+id/addEventDescriptionEditText" />
+        android:layout_alignStart="@+id/addEventDescriptionEditText"
+        android:layout_marginTop="22dp" />
 
     <Button
         android:id="@+id/addEventCreateEventButton"
@@ -43,4 +42,35 @@
         android:text="Create Event!"
         tools:layout_editor_absoluteX="145dp"
         tools:layout_editor_absoluteY="406dp" />
+
+    <Button
+        android:id="@+id/addEventSetTimeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addEventLocationEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="Set Time"
+        android:onClick="setTimeOnClick"
+        />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/addEventLocationEditText"
+        android:layout_alignStart="@+id/addEventLocationEditText"
+        android:layout_below="@+id/addEventSetTimeButton"
+        android:layout_marginTop="20dp"
+        android:text="Event Time:"
+        />
+
+    <TextView
+        android:id="@+id/addEventTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignEnd="@+id/addEventLocationEditText"
+        android:layout_alignRight="@+id/addEventLocationEditText" />
+
 </android.widget.RelativeLayout>
