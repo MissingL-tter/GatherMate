@@ -47,4 +47,8 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
         return listViewItem;
     }
+
+    public Event getItem(int position) {
+        return eventList.get(position);
+    }
 }

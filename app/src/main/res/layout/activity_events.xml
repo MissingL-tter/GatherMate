@@ -6,26 +6,34 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.gathermate_20.EventsActivity">
 
-    <Button
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/eventAddEventButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Event"
-        tools:layout_editor_absoluteX="254dp"
-        tools:layout_editor_absoluteY="445dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="19dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_action_name"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"/>
 
-    <ListView
-        android:id="@+id/listViewEvents"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/eventAddEventButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/listViewEvents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/eventAddEventButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+    </LinearLayout>
+
 </android.widget.RelativeLayout>
