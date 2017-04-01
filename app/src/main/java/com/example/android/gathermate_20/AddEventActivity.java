@@ -1,12 +1,12 @@
 package com.example.android.gathermate_20;
 
 
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -15,15 +15,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.sql.Time;
-
 public class AddEventActivity extends FragmentActivity {
     private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
-    public Time timeChosen;
+    TimeDialogHandler timeDialogHandler;
     Button createEventButton;
     EditText descriptionET, locationET;
     GoogleSignInAccount user;
+    TextView timeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +63,9 @@ public class AddEventActivity extends FragmentActivity {
     }
 
     public void setTimeOnClick(View view) {
-        DialogFragment timeDialogHandler = new TimeDialogHandler();
+        timeDialogHandler = new TimeDialogHandler();
 
         timeDialogHandler.show(getFragmentManager(), "timePicker");
+
     }
 }

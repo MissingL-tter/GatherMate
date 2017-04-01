@@ -7,6 +7,7 @@ import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 /**
@@ -17,6 +18,8 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
 
     int hour;
     int min;
+    String amPm = "AM";
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -37,15 +40,29 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
     }
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) {
-        hour = i;
-        min = i1;
+    public void onTimeSet(TimePicker timePicker, int hour, int min) {
+
+        this.hour = hour;
+        this.min = min;
+        if(hour > 12){
+            hour = hour - 12;
+            amPm = "PM";
+        }
+        if(hour == 0){
+            hour = 12;
+        }
+        if(hour == 12){
+            amPm = "PM";
+        }
+
+        TextView hourTV = (TextView) getActivity().findViewById(R.id.addEventHourTextView);
+        hourTV.setText(String.valueOf(hour));
+
+        TextView minTV = (TextView) getActivity().findViewById(R.id.addEventMinTextView);
+        minTV.setText(String.valueOf(min));
+
+        TextView amPmTV = (TextView) getActivity().findViewById(R.id.addEventAmPmTV);
+        amPmTV.setText(amPm);
     }
 
-    public int getHour(){
-        return hour;
-    }
-    public int getMin(){
-        return min;
-    }
 }
