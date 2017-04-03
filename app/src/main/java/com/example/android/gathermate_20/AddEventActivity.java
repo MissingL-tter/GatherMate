@@ -1,10 +1,12 @@
 package com.example.android.gathermate_20;
 
+
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -13,12 +15,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class AddEventActivity extends AppCompatActivity {
+public class AddEventActivity extends FragmentActivity {
     private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
+    TimeDialogHandler timeDialogHandler;
     Button createEventButton;
     EditText descriptionET, locationET;
     GoogleSignInAccount user;
+    TextView timeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +60,12 @@ public class AddEventActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();
         finish();
+    }
+
+    public void setTimeOnClick(View view) {
+        timeDialogHandler = new TimeDialogHandler();
+
+        timeDialogHandler.show(getFragmentManager(), "timePicker");
+
     }
 }
