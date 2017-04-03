@@ -8,8 +8,6 @@ import android.support.annotation.RequiresApi;
  */
 
 public class Event {
-    String description, location, name, uid, eventId;
-
     int hourOfEvent;
     int minOfEvent;
     int currentHour;
