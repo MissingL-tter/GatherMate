@@ -1,4 +1,4 @@
-package com.example.android.gathermate_20;
+package itcs4155.gathermate;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

@@ -1,4 +1,4 @@
-package com.example.android.gathermate_20;
+package itcs4155.gathermate;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;

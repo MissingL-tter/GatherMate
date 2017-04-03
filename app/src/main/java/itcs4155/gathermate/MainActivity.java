@@ -1,4 +1,4 @@
-package com.example.android.gathermate_20;
+package itcs4155.gathermate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             firebaseAuthWithGoogle(acct);
 
