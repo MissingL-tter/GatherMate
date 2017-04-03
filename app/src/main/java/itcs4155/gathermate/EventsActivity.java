@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +39,10 @@ public class EventsActivity extends AppCompatActivity {
         new DrawerBuilder().withActivity(this).build();
         databaseEvents = FirebaseDatabase.getInstance().getReference();
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        final FirebaseUser fbUser = firebaseAuth.getCurrentUser();
+
         eventList = new ArrayList<>();
 
         addEventButton = (FloatingActionButton) findViewById(R.id.eventAddEventButton);
@@ -56,6 +61,10 @@ public class EventsActivity extends AppCompatActivity {
                 intent.putExtra("detailName",item.getName());
                 intent.putExtra("detailDesc",item.getDescription());
                 intent.putExtra("locationDetail",item.getLocation());
+                // isOwner defaults to false, so only set it if it's true
+                if (fbUser.getUid().equals(item.getUid())) {
+                    intent.putExtra("isOwner",true);
+                }
                 startActivity(intent);
             }
         });
@@ -79,6 +88,7 @@ public class EventsActivity extends AppCompatActivity {
                 eventList.clear();
                 for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                     Event event = (Event) eventSnapshot.getValue(Event.class);
+                    event.setUid(eventSnapshot.getKey());
 
                     eventList.add(event);
                 }

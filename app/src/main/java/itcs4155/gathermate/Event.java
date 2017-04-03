@@ -5,7 +5,7 @@ package itcs4155.gathermate;
  */
 
 public class Event {
-    String description, location, name;
+    String description, location, name, uid;
 
     public Event() {
 
@@ -23,6 +23,8 @@ public class Event {
         return name;
     }
 
+    public String getUid() { return uid; }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -34,4 +36,6 @@ public class Event {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setUid (String uid) { this.uid = uid; }
 }
