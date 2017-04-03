@@ -1,4 +1,4 @@
-package itcs4155.gathermate;
+package com.example.android.gathermate_20;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

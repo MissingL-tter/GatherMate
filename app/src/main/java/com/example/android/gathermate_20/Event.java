@@ -1,4 +1,4 @@
-package itcs4155.gathermate;
+package com.example.android.gathermate_20;
 
 /**
  * Created by Todd on 3/29/2017.

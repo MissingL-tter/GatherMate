@@ -1,4 +1,4 @@
-package itcs4155.gathermate;
+package com.example.android.gathermate_20;
 
 import android.content.Intent;
 import android.os.Bundle;
