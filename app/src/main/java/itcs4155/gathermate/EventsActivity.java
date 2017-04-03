@@ -41,8 +41,6 @@ public class EventsActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        final FirebaseUser fbUser = firebaseAuth.getCurrentUser();
-
         eventList = new ArrayList<>();
 
         addEventButton = (FloatingActionButton) findViewById(R.id.eventAddEventButton);
@@ -61,8 +59,9 @@ public class EventsActivity extends AppCompatActivity {
                 intent.putExtra("detailName",item.getName());
                 intent.putExtra("detailDesc",item.getDescription());
                 intent.putExtra("locationDetail",item.getLocation());
-                // isOwner defaults to false, so only set it if it's true
-                if (fbUser.getUid().equals(item.getUid())) {
+                intent.putExtra("eventId",item.getEventId());
+                intent.putExtra("uid",item.getUid());
+                if (firebaseAuth.getCurrentUser().getUid().equals(item.getUid())) {
                     intent.putExtra("isOwner",true);
                 }
                 startActivity(intent);
@@ -86,11 +85,14 @@ public class EventsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 eventList.clear();
-                for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
-                    Event event = (Event) eventSnapshot.getValue(Event.class);
-                    event.setUid(eventSnapshot.getKey());
+                for (DataSnapshot eventListSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot eventSnapshot : eventListSnapshot.getChildren()) {
+                        Event event = (Event) eventSnapshot.getValue(Event.class);
+                        event.setUid(eventListSnapshot.getKey());
+                        event.setEventId(eventSnapshot.getKey());
 
-                    eventList.add(event);
+                        eventList.add(event);
+                    }
                 }
 
                 EventsListAdapter adapter = new EventsListAdapter(EventsActivity.this, eventList);

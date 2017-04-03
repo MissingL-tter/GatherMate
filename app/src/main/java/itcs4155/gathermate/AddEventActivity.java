@@ -44,15 +44,15 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     private void createEvent() {
+        FirebaseUser fbUser = firebaseAuth.getCurrentUser();
         Event event = new Event();
                 event.setDescription(descriptionET.getText().toString());
                 event.setLocation(locationET.getText().toString());
 
                 event.setName(user.getGivenName() + " " + user.getFamilyName());
+                event.setUid(fbUser.getUid());
 
-        FirebaseUser fbUser = firebaseAuth.getCurrentUser();
-
-        databaseReference.child(fbUser.getUid()).setValue(event);
+        databaseReference.child(fbUser.getUid()).push().setValue(event);
 
         Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();
         finish();
