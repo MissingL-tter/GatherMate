@@ -32,28 +32,24 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
     }
 
     @Override
-    public void onTimeSet(TimePicker timePicker, int hour, int min) {
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
 
         this.hour = hour;
-        this.minute = min;
+        this.minute = minute;
 
+        String time = String.format("%d:%02d", hour, minute) + " " + "AM";
         if(hour >= 12) {
-            amPm = "PM";
             if(hour > 12){
                 hour -= 12;
             }
-        }else if(hour == 0){
+            time = String.format("%d:%02d", hour, minute) + " " + "PM";
+        }else if(hour == 0) {
             hour = 12;
+            time = String.format("%d:%02d", hour, minute) + " " + "AM";
         }
 
-        TextView hourTV = (TextView) getActivity().findViewById(R.id.addEventHourTextView);
-        hourTV.setText(String.valueOf(hour));
-
-        TextView minTV = (TextView) getActivity().findViewById(R.id.addEventMinTextView);
-        minTV.setText(String.valueOf(min));
-
-        TextView amPmTV = (TextView) getActivity().findViewById(R.id.addEventAmPmTV);
-        amPmTV.setText(amPm);
+        TextView timeTV = (TextView) getActivity().findViewById((R.id.addEventSetTimeButton));
+        timeTV.setText((time));
     }
 
 }

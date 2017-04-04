@@ -41,16 +41,17 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         //Time Parser
         Integer hour = Integer.parseInt(event.hour);
         Integer minute = Integer.parseInt(event.minute);
-        String amPm = "AM";
+        String time = String.format("%d:%02d", hour, minute) + " " + "AM";
         if(hour >= 12) {
-            amPm = "PM";
             if(hour > 12){
                 hour -= 12;
             }
-        }else if(hour == 0){
+            time = String.format("%d:%02d", hour, minute) + " " + "PM";
+        }else if(hour == 0) {
             hour = 12;
+            time = String.format("%d:%02d", hour, minute) + " " + "AM";
         }
-        timeItem.setText(hour + ":" + minute + " " + amPm);
+        timeItem.setText(time);
         descriptionItem.setText(event.description);
         nameItem.setText(event.name);
 

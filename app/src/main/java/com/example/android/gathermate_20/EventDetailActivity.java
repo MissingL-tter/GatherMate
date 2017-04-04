@@ -39,16 +39,17 @@ public class EventDetailActivity extends AppCompatActivity {
         timeView = (TextView) findViewById(R.id.detailTime);
         Integer hour = Integer.parseInt(event.hour);
         Integer minute = Integer.parseInt(event.minute);
-        String amPm = "AM";
+        String time = String.format("%d:%02d", hour, minute) + " " + "AM";
         if(hour >= 12) {
-            amPm = "PM";
             if(hour > 12){
                 hour -= 12;
             }
-        }else if(hour == 0){
+            time = String.format("%d:%02d", hour, minute) + " " + "PM";
+        }else if(hour == 0) {
             hour = 12;
+            time = String.format("%d:%02d", hour, minute) + " " + "AM";
         }
-        timeView.setText(hour + ":" + minute + " " + amPm);
+        timeView.setText(time);
         descView = (TextView) findViewById(R.id.detailDesc);
         descView.setText(event.description);
         nameView = (TextView) findViewById(R.id.detailName);
