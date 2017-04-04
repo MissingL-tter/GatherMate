@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class AddEventActivity extends FragmentActivity {
     private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
+    private Place pickedPlace;
     TimeDialogHandler timeDialogHandler;
     Button createEventButton;
     EditText descriptionET, locationET;
@@ -33,7 +34,6 @@ public class AddEventActivity extends FragmentActivity {
         setContentView(R.layout.activity_add_event);
 
         descriptionET = (EditText) findViewById(R.id.addEventDescriptionEditText);
-        locationET = (EditText) findViewById(R.id.addEventLocationEditText);
 
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -53,6 +53,7 @@ public class AddEventActivity extends FragmentActivity {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
+                pickedPlace = place;
                 Log.i("PLACE_AUTO", "Place: " + place.getName());
             }
 
@@ -74,12 +75,12 @@ public class AddEventActivity extends FragmentActivity {
         DatabaseReference eventReference = databaseReference.child(fbUser.getUid()).push();
 
         Event event = new Event(descriptionET.getText().toString(),
-                                locationET.getText().toString(),
-                                timeDialogHandler.hour.toString(),
-                                timeDialogHandler.minute.toString(),
-                                fbUser.getDisplayName(),
-                                fbUser.getUid(),
-                                eventReference.getKey());
+            pickedPlace.getName().toString(),
+            timeDialogHandler.hour.toString(),
+            timeDialogHandler.minute.toString(),
+            fbUser.getDisplayName(),
+            fbUser.getUid(),
+            eventReference.getKey());
 
         eventReference.setValue(event);
 

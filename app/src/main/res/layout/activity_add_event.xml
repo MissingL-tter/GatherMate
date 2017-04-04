@@ -13,24 +13,9 @@
         android:ems="10"
         android:hint="Enter Short Description"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="71dp"
-        tools:layout_editor_absoluteY="16dp"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/addEventTimeTextView"
         android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:id="@+id/addEventLocationEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Location"
-        android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="71dp"
-        tools:layout_editor_absoluteY="85dp"
-        android:layout_below="@+id/addEventDescriptionEditText"
-        android:layout_alignLeft="@+id/addEventDescriptionEditText"
-        android:layout_alignStart="@+id/addEventDescriptionEditText"
-        android:layout_marginTop="22dp" />
 
     <Button
         android:id="@+id/addEventCreateEventButton"
@@ -39,20 +24,17 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="58dp"
-        android:text="Create Event!"
-        tools:layout_editor_absoluteX="145dp"
-        tools:layout_editor_absoluteY="406dp" />
+        android:text="Create Event!" />
 
     <Button
         android:id="@+id/addEventSetTimeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/addEventLocationEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
         android:text="Set Time"
         android:onClick="setTimeOnClick"
-        />
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/addEventDescriptionEditText"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/addEventTimeTextView"
@@ -66,11 +48,7 @@
         android:id="@+id/place_autocomplete_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-        android:layout_above="@+id/addEventCreateEventButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="103dp" />
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment" />
 
 
 
