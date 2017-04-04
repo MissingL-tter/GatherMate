@@ -100,17 +100,6 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount acct = result.getSignInAccount();
             firebaseAuthWithGoogle(acct);
 
-
-            /*
-            String firstName, lastName;
-            firstName = acct.getGivenName();
-            lastName = acct.getFamilyName();
-            Toast.makeText(this,"Welcome" + " " + firstName + "!", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, EventsActivity.class);
-            intent.putExtra("User", acct);
-            startActivity(intent);
-            */
-
         } else {
             // Signed out, show unauthenticated UI.
             Toast.makeText(this,"Sign-in Was Unsuccessful", Toast.LENGTH_LONG).show();
