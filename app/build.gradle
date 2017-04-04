@@ -38,6 +38,7 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.8.2@aar') {
         transitive = true
     }
+    compile 'com.google.android.gms:play-services-places:10.2.1'
 }
 
 

@@ -5,9 +5,12 @@ import android.os.Parcelable;
 import android.os.Parcel;
 import android.support.annotation.RequiresApi;
 
+import com.google.android.gms.location.places.Place;
+
 public class Event implements Parcelable{
 
     public String description, location, hour, minute, name, uid, eventId;
+    public Place place;
 
     public Event() {
 
