@@ -21,8 +21,6 @@ public class AddEventActivity extends FragmentActivity {
     TimeDialogHandler timeDialogHandler;
     Button createEventButton;
     EditText descriptionET, locationET;
-    GoogleSignInAccount user;
-    TextView timeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,6 @@ public class AddEventActivity extends FragmentActivity {
 
         FirebaseUser fbUser = firebaseAuth.getCurrentUser();
 
-        user = getIntent().getParcelableExtra("User");
         createEventButton = (Button) findViewById(R.id.addEventCreateEventButton);
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,25 +44,27 @@ public class AddEventActivity extends FragmentActivity {
         });
     }
 
+    public void setTimeOnClick(View view) {
+        timeDialogHandler = new TimeDialogHandler();
+        timeDialogHandler.show(getFragmentManager(), "timePicker");
+    }
+
     private void createEvent() {
         FirebaseUser fbUser = firebaseAuth.getCurrentUser();
-        Event event = new Event();
-                event.setDescription(descriptionET.getText().toString());
-                event.setLocation(locationET.getText().toString());
 
-                event.setName(user.getGivenName() + " " + user.getFamilyName());
-                event.setUid(fbUser.getUid());
+        DatabaseReference eventReference = databaseReference.child(fbUser.getUid()).push();
 
-        databaseReference.child(fbUser.getUid()).push().setValue(event);
+        Event event = new Event(descriptionET.getText().toString(),
+                                locationET.getText().toString(),
+                                timeDialogHandler.hour.toString(),
+                                timeDialogHandler.minute.toString(),
+                                fbUser.getDisplayName(),
+                                fbUser.getUid(),
+                                eventReference.getKey());
+
+        eventReference.setValue(event);
 
         Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();
         finish();
-    }
-
-    public void setTimeOnClick(View view) {
-        timeDialogHandler = new TimeDialogHandler();
-
-        timeDialogHandler.show(getFragmentManager(), "timePicker");
-
     }
 }

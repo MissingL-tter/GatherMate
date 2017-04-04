@@ -23,7 +23,6 @@ import java.util.List;
 public class EventsActivity extends AppCompatActivity {
 
     FloatingActionButton addEventButton;
-    GoogleSignInAccount user;
     ListView listViewEvents;
     List<Event> eventList;
 
@@ -43,24 +42,18 @@ public class EventsActivity extends AppCompatActivity {
         eventList = new ArrayList<>();
 
         addEventButton = (FloatingActionButton) findViewById(R.id.eventAddEventButton);
-        user = getIntent().getParcelableExtra("User");
 
         listViewEvents = (ListView) findViewById(R.id.listViewEvents);
         listViewEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event item = (Event) parent.getItemAtPosition(position);
                 //TextView nameView = (TextView) parent.findViewById(R.id.detailName);
                 //String name = listViewEvents.getItemAtPosition(position).toString().trim();
                 Intent intent = new Intent(EventsActivity.this, EventDetailActivity.class);
-                System.out.println(item.getName());
-                intent.putExtra("detailName",item.getName());
-                intent.putExtra("detailDesc",item.getDescription());
-                intent.putExtra("locationDetail",item.getLocation());
-                intent.putExtra("eventId",item.getEventId());
-                intent.putExtra("uid",item.getUid());
-                if (firebaseAuth.getCurrentUser().getUid().equals(item.getUid())) {
+                System.out.println(item.name);
+                intent.putExtra("event", item);
+                if (firebaseAuth.getCurrentUser().getUid().equals(item.uid)) {
                     intent.putExtra("isOwner",true);
                 }
                 startActivity(intent);
@@ -87,8 +80,8 @@ public class EventsActivity extends AppCompatActivity {
                 for (DataSnapshot eventListSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot eventSnapshot : eventListSnapshot.getChildren()) {
                         Event event = (Event) eventSnapshot.getValue(Event.class);
-                        event.setUid(eventListSnapshot.getKey());
-                        event.setEventId(eventSnapshot.getKey());
+                        event.uid = (eventListSnapshot.getKey());
+                        event.eventId = (eventSnapshot.getKey());
 
                         eventList.add(event);
                     }
@@ -107,7 +100,6 @@ public class EventsActivity extends AppCompatActivity {
 
     private void startAddEvent() {
         Intent intent = new Intent(this, AddEventActivity.class);
-        intent.putExtra("User", user);
         startActivity(intent);
     }
 }

@@ -11,10 +11,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by Todd on 3/29/2017.
- */
-
 public class EventsListAdapter extends ArrayAdapter<Event> {
 
     private Activity context;
@@ -34,16 +30,29 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
         View listViewItem = inflater.inflate(R.layout.list_layout, null, true);
 
-        TextView descriptionItem = (TextView) listViewItem.findViewById(R.id.listItemDescription);
         TextView locationItem = (TextView) listViewItem.findViewById(R.id.listItemLocation);
+        TextView timeItem = (TextView) listViewItem.findViewById(R.id.listItemTime);
+        TextView descriptionItem = (TextView) listViewItem.findViewById(R.id.listItemDescription);
         TextView nameItem = (TextView) listViewItem.findViewById(R.id.listItemName);
 
         Event event = eventList.get(position);
-        descriptionItem.setText(event.getDescription());
-        locationItem.setText(event.getLocation());
-        nameItem.setText(event.getName());
 
-
+        locationItem.setText(event.location);
+        //Time Parser
+        Integer hour = Integer.parseInt(event.hour);
+        Integer minute = Integer.parseInt(event.minute);
+        String amPm = "AM";
+        if(hour >= 12) {
+            amPm = "PM";
+            if(hour > 12){
+                hour -= 12;
+            }
+        }else if(hour == 0){
+            hour = 12;
+        }
+        timeItem.setText(hour + ":" + minute + " " + amPm);
+        descriptionItem.setText(event.description);
+        nameItem.setText(event.name);
 
         return listViewItem;
     }

@@ -118,28 +118,26 @@ public class MainActivity extends AppCompatActivity {
     }
     private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        String firstName, lastName;
-                        firstName = account.getGivenName();
-                        lastName = account.getFamilyName();
-                        Toast.makeText(MainActivity.this,"Welcome" + " " + firstName + "!", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(MainActivity.this, EventsActivity.class);
-                        intent.putExtra("User", account);
-                        startActivity(intent);
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        // ...
-                    }
-                });
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                String firstName, lastName;
+                firstName = account.getGivenName();
+                lastName = account.getFamilyName();
+                Toast.makeText(MainActivity.this,"Welcome" + " " + firstName + "!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, EventsActivity.class);
+                startActivity(intent);
+                // If sign in fails, display a message to the user. If sign in succeeds
+                // the auth state listener will be notified and logic to handle the
+                // signed in user can be handled in the listener.
+                if (!task.isSuccessful()) {
+                    Log.w(TAG, "signInWithCredential", task.getException());
+                    Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                // ...
+            }
+        });
     }
 }
