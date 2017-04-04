@@ -47,13 +47,11 @@ public class EventsActivity extends AppCompatActivity {
         listViewEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Event item = (Event) parent.getItemAtPosition(position);
-                //TextView nameView = (TextView) parent.findViewById(R.id.detailName);
-                //String name = listViewEvents.getItemAtPosition(position).toString().trim();
+                Event event = (Event) parent.getItemAtPosition(position);
                 Intent intent = new Intent(EventsActivity.this, EventDetailActivity.class);
-                System.out.println(item.name);
-                intent.putExtra("event", item);
-                if (firebaseAuth.getCurrentUser().getUid().equals(item.uid)) {
+                System.out.println(event.name);
+                intent.putExtra("event", event);
+                if (firebaseAuth.getCurrentUser().getUid().equals(event.uid)) {
                     intent.putExtra("isOwner",true);
                 }
                 startActivity(intent);
@@ -79,7 +77,7 @@ public class EventsActivity extends AppCompatActivity {
                 eventList.clear();
                 for (DataSnapshot eventListSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot eventSnapshot : eventListSnapshot.getChildren()) {
-                        Event event = (Event) eventSnapshot.getValue(Event.class);
+                        Event event = eventSnapshot.getValue(Event.class);
                         event.uid = (eventListSnapshot.getKey());
                         event.eventId = (eventSnapshot.getKey());
 

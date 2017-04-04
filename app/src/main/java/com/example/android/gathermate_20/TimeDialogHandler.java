@@ -1,5 +1,6 @@
 package com.example.android.gathermate_20;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
@@ -14,7 +15,6 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
 
     Integer hour;
     Integer minute;
-    String amPm = "AM";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -23,14 +23,12 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
             Calendar calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int min = calendar.get(Calendar.MINUTE);
-            TimePickerDialog dialog;
-
-
 
             return new TimePickerDialog(getActivity(), this, hour, min,
                     android.text.format.DateFormat.is24HourFormat(getActivity()));
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
 

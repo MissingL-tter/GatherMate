@@ -64,52 +64,7 @@ public class Event implements Parcelable{
         }
     };
 
-//    int hourOfEvent;
-//    int minOfEvent;
-//    int currentHour;
-//    int currentMin;
-//
-//    public int getCurrentHour() {
-//        return currentHour;
-//    }
-//
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    public void setCurrentHour(int currentHour) {
-//
-//        this.currentHour = currentHour;
-//    }
-//
-//    public int getCurrentMin() {
-//        return currentMin;
-//    }
-//
-//    public void setCurrentMin(int currentMin) {
-//        this.currentMin = currentMin;
-//    }
-//
-//    int timeToEvent;
-//
-//    public int getHourOfEvent() {
-//        return hourOfEvent;
-//    }
-//
-//    public void setHourOfEvent(int hourOfEvent) {
-//        this.hourOfEvent = hourOfEvent;
-//    }
-//
-//    public int getMinOfEvent() {
-//        return minOfEvent;
-//    }
-//
-//    public void setMinOfEvent(int minOfEvent) {
-//        this.minOfEvent = minOfEvent;
-//    }
-//
-//    public int getTimeToEvent() {
-//        return timeToEvent;
-//    }
-//
-//    public void setTimeToEvent() {
+//   public void setTimeToEvent() {
 //        int timeToHour = hourOfEvent - currentHour;
 //        int timeToMin = minOfEvent - currentMin;
 //
@@ -118,4 +73,5 @@ public class Event implements Parcelable{
 //        } else
 //            timeToEvent = currentMin;
 //    }
+
 }
