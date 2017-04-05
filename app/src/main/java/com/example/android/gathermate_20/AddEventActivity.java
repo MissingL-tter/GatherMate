@@ -1,7 +1,11 @@
 package com.example.android.gathermate_20;
 
 
+import android.icu.util.Calendar;
+import android.icu.util.GregorianCalendar;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +29,7 @@ public class AddEventActivity extends FragmentActivity {
     private FirebaseAuth firebaseAuth;
     private Place pickedPlace;
     TimeDialogHandler timeDialogHandler;
+    DateDialogHandler dateDialogHandler;
     Button createEventButton;
     EditText descriptionET, locationET;
 
@@ -69,15 +74,24 @@ public class AddEventActivity extends FragmentActivity {
         timeDialogHandler.show(getFragmentManager(), "timePicker");
     }
 
+    public void setDateOnClick(View view) {
+        dateDialogHandler = new DateDialogHandler();
+        dateDialogHandler.show(getFragmentManager(), "datePicker");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void createEvent() {
         FirebaseUser fbUser = firebaseAuth.getCurrentUser();
 
         DatabaseReference eventReference = databaseReference.child(fbUser.getUid()).push();
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(dateDialogHandler.year, dateDialogHandler.month, dateDialogHandler.day, timeDialogHandler.hour, timeDialogHandler.minute);
+        Long time = calendar.getTimeInMillis();
+
         Event event = new Event(descriptionET.getText().toString(),
             pickedPlace.getName().toString(),
-            timeDialogHandler.hour.toString(),
-            timeDialogHandler.minute.toString(),
+            time.toString(),
             fbUser.getDisplayName(),
             fbUser.getUid(),
             eventReference.getKey());

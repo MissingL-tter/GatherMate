@@ -1,6 +1,5 @@
 package com.example.android.gathermate_20;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
@@ -28,7 +27,6 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
                     android.text.format.DateFormat.is24HourFormat(getActivity()));
     }
 
-    @SuppressLint("DefaultLocale")
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
 

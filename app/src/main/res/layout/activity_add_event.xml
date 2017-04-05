@@ -33,8 +33,19 @@
         android:text="Set Time"
         android:onClick="setTimeOnClick"
         android:layout_marginTop="30dp"
-        android:layout_below="@+id/addEventDescriptionEditText"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="100dp"
+        android:layout_below="@+id/addEventDescriptionEditText" />
+
+
+    <Button
+        android:id="@+id/addEventSetDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Date"
+        android:onClick="setDateOnClick"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="196dp"
+        android:layout_below="@+id/addEventDescriptionEditText" />
 
     <TextView
         android:id="@+id/addEventTimeTextView"
