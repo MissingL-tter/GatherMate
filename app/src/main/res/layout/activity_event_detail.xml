@@ -7,7 +7,7 @@
     tools:context="com.example.android.gathermate_20.EventDetailActivity">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/detailVenueName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
@@ -19,82 +19,82 @@
         android:layout_marginStart="56dp" />
 
     <TextView
-        android:id="@+id/detailLocation"
+        android:id="@+id/detailVenueNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView1"
+        android:layout_alignTop="@+id/detailVenueName"
         android:layout_centerHorizontal="true"
         android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date:"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/textView1"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_alignStart="@+id/textView1" />
 
     <TextView
         android:id="@+id/detailDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
+        android:text="Date:"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/detailVenueName"
+        android:layout_alignLeft="@+id/detailVenueName"
+        android:layout_alignStart="@+id/detailVenueName" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/detailDateContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Time:"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        android:layout_alignTop="@+id/detailDate"
+        android:layout_centerHorizontal="true"
+        android:text="TextView" />
 
     <TextView
         android:id="@+id/detailTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView3"
+        android:text="Time:"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/detailDate"
+        android:layout_alignLeft="@+id/detailDate"
+        android:layout_alignStart="@+id/detailDate" />
+
+    <TextView
+        android:id="@+id/detailTimeContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/detailTime"
         android:layout_centerHorizontal="true"
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/detailDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description:"
         android:layout_marginTop="21dp"
-        android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        android:layout_below="@+id/detailTime"
+        android:layout_alignLeft="@+id/detailTime"
+        android:layout_alignStart="@+id/detailTime" />
 
     <TextView
-        android:id="@+id/detailDesc"
+        android:id="@+id/detailDescriptionContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView4"
+        android:layout_alignTop="@+id/detailDescription"
         android:layout_centerHorizontal="true"
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/detailOwnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Event creator:"
         android:layout_marginTop="21dp"
-        android:layout_below="@+id/textView4"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4" />
+        android:layout_below="@+id/detailDescription"
+        android:layout_alignLeft="@+id/detailDescription"
+        android:layout_alignStart="@+id/detailDescription" />
 
     <TextView
-        android:id="@+id/detailName"
+        android:id="@+id/detailOwnerNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView5"
+        android:layout_alignTop="@+id/detailOwnerName"
         android:layout_centerHorizontal="true"
         android:text="TextView" />
 

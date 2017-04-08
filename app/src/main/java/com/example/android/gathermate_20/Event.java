@@ -1,40 +1,42 @@
 package com.example.android.gathermate_20;
 
-import android.os.Build;
 import android.os.Parcelable;
 import android.os.Parcel;
-import android.support.annotation.RequiresApi;
-
-import com.google.android.gms.location.places.Place;
 
 public class Event implements Parcelable{
 
-    public String description, location, time, name, uid, eventId;
-    public Place place;
+    public String description, venueName, ownerName, uid, eventId;
+    public Double lat, lng;
+    public Long time;
 
+    // Here because it has to be
     public Event() {
 
     }
 
-    public Event(String description, String location, String time, String name, String uid, String eventId) {
+    public Event(String description, String venueName, Double lat, Double lng, Long time, String ownerName, String uid, String eventId) {
         this.description = description;
-        this.location = location;
+        this.venueName = venueName;
+        this.lat = lat;
+        this.lng = lng;
         this.time = time;
-        this.name = name;
+        this.ownerName = ownerName;
         this.uid = uid;
         this.eventId = eventId;
     }
 
     public Event(Parcel in) {
-        String[] data = new String[6];
+        String[] data = new String[8];
 
         in.readStringArray(data);
         this.description = data[0];
-        this.location = data[1];
-        this.time = data[2];
-        this.name = data[3];
-        this.uid = data[4];
-        this.eventId = data[5];
+        this.venueName = data[1];
+        this.lat = Double.parseDouble(data[2]);
+        this.lng = Double.parseDouble(data[3]);
+        this.time = Long.parseLong(data[4]);
+        this.ownerName = data[5];
+        this.uid = data[6];
+        this.eventId = data[7];
     }
 
     @Override
@@ -46,9 +48,11 @@ public class Event implements Parcelable{
     public void writeToParcel(Parcel out, int flags) {
         out.writeStringArray(new String[] {
                 this.description,
-                this.location,
-                this.time,
-                this.name,
+                this.venueName,
+                this.lat.toString(),
+                this.lng.toString(),
+                this.time.toString(),
+                this.ownerName,
                 this.uid,
                 this.eventId
         });
@@ -63,15 +67,5 @@ public class Event implements Parcelable{
             return new Event[size];
         }
     };
-
-//   public void setTimeToEvent() {
-//        int timeToHour = hourOfEvent - currentHour;
-//        int timeToMin = minOfEvent - currentMin;
-//
-//        if (timeToHour > 0) {
-//            timeToEvent = (timeToHour * 60) + currentMin;
-//        } else
-//            timeToEvent = currentMin;
-//    }
 
 }

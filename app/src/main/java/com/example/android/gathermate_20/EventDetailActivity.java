@@ -10,11 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 public class EventDetailActivity extends AppCompatActivity {
 
@@ -23,7 +20,7 @@ public class EventDetailActivity extends AppCompatActivity {
     TextView locationView;
     TextView dateView;
     TextView timeView;
-    TextView descView;
+    TextView descriptionView;
     TextView nameView;
     Button deleteButton;
     boolean isOwner;
@@ -39,14 +36,14 @@ public class EventDetailActivity extends AppCompatActivity {
         final Event event = intent.getParcelableExtra("event");
 
         //Location
-        locationView = (TextView) findViewById(R.id.detailLocation);
-        locationView.setText(event.location);
+        locationView = (TextView) findViewById(R.id.detailVenueNameContent);
+        locationView.setText(event.venueName);
 
         //Date and Time
-        dateView = (TextView) findViewById(R.id.detailDate);
-        timeView = (TextView) findViewById(R.id.detailTime);
+        dateView = (TextView) findViewById(R.id.detailDateContent);
+        timeView = (TextView) findViewById(R.id.detailTimeContent);
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(Long.parseLong(event.time));
+        calendar.setTimeInMillis(event.time);
         Integer year = calendar.get(Calendar.YEAR);
         Integer month = calendar.get(Calendar.MONTH);
         Integer day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -67,23 +64,23 @@ public class EventDetailActivity extends AppCompatActivity {
         timeView.setText(timeText);
 
         //Description
-        descView = (TextView) findViewById(R.id.detailDesc);
-        descView.setText(event.description);
+        descriptionView = (TextView) findViewById(R.id.detailDescriptionContent);
+        descriptionView.setText(event.description);
 
         //Name
-        nameView = (TextView) findViewById(R.id.detailName);
+        nameView = (TextView) findViewById(R.id.detailOwnerNameContent);
 
         //Delete
         deleteButton = (Button) findViewById(R.id.eventDeleteButton);
         isOwner = intent.getBooleanExtra("isOwner",false);
         if (isOwner) {
-            nameView.setText(event.name + " (me)");
+            nameView.setText("You");
             deleteButton.setVisibility(View.VISIBLE);
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) { deleteEvent(v, event.uid, event.eventId); }
             });
         } else {
-            nameView.setText(event.name);
+            nameView.setText(event.ownerName);
             deleteButton.setVisibility(View.INVISIBLE);
         }
 

@@ -1,7 +1,10 @@
 package com.example.android.gathermate_20;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -49,7 +52,6 @@ public class EventsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event event = (Event) parent.getItemAtPosition(position);
                 Intent intent = new Intent(EventsActivity.this, EventDetailActivity.class);
-                System.out.println(event.name);
                 intent.putExtra("event", event);
                 if (firebaseAuth.getCurrentUser().getUid().equals(event.uid)) {
                     intent.putExtra("isOwner",true);
@@ -67,6 +69,7 @@ public class EventsActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onStart() {
         super.onStart();

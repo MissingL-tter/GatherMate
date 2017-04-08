@@ -2,7 +2,6 @@ package com.example.android.gathermate_20;
 
 
 import android.icu.util.Calendar;
-import android.icu.util.GregorianCalendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -10,11 +9,9 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.Place;
@@ -31,7 +28,7 @@ public class AddEventActivity extends FragmentActivity {
     TimeDialogHandler timeDialogHandler;
     DateDialogHandler dateDialogHandler;
     Button createEventButton;
-    EditText descriptionET, locationET;
+    EditText descriptionET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +40,16 @@ public class AddEventActivity extends FragmentActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        FirebaseUser fbUser = firebaseAuth.getCurrentUser();
-
         createEventButton = (Button) findViewById(R.id.addEventCreateEventButton);
         createEventButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
                 createEvent();
             }
         });
 
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
@@ -89,13 +84,15 @@ public class AddEventActivity extends FragmentActivity {
         calendar.set(dateDialogHandler.year, dateDialogHandler.month, dateDialogHandler.day, timeDialogHandler.hour, timeDialogHandler.minute);
         Long time = calendar.getTimeInMillis();
 
-        Event event = new Event(descriptionET.getText().toString(),
+        Event event = new Event(
+            descriptionET.getText().toString(),
             pickedPlace.getName().toString(),
-            time.toString(),
+            pickedPlace.getLatLng().latitude,
+            pickedPlace.getLatLng().longitude,
+            time,
             fbUser.getDisplayName(),
             fbUser.getUid(),
             eventReference.getKey());
-
         eventReference.setValue(event);
 
         Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();
