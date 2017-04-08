@@ -10,93 +10,107 @@
         android:id="@+id/detailVenueName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="32dp"
         android:text="Location:"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="56dp"
-        android:layout_marginStart="56dp" />
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp" />
 
     <TextView
         android:id="@+id/detailVenueNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_alignTop="@+id/detailVenueName"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
+        android:layout_toEndOf="@+id/detailVenueName"
+        android:layout_toRightOf="@+id/detailVenueName" />
 
     <TextView
         android:id="@+id/detailDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date:"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/detailVenueName"
-        android:layout_alignLeft="@+id/detailVenueName"
-        android:layout_alignStart="@+id/detailVenueName" />
+        android:layout_alignEnd="@+id/detailVenueName"
+        android:layout_alignRight="@+id/detailVenueName" />
 
     <TextView
         android:id="@+id/detailDateContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_alignTop="@+id/detailDate"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
+        android:layout_toEndOf="@+id/detailDate"
+        android:layout_toRightOf="@+id/detailDate" />
 
     <TextView
         android:id="@+id/detailTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time:"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/detailDate"
-        android:layout_alignLeft="@+id/detailDate"
-        android:layout_alignStart="@+id/detailDate" />
+        android:layout_alignEnd="@+id/detailDate"
+        android:layout_alignRight="@+id/detailDate" />
 
     <TextView
         android:id="@+id/detailTimeContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_alignTop="@+id/detailTime"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
+        android:layout_toEndOf="@+id/detailTime"
+        android:layout_toRightOf="@+id/detailTime" />
 
     <TextView
-        android:id="@+id/detailDescription"
+        android:id="@+id/detailDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description:"
-        android:layout_marginTop="21dp"
+        android:text="Details:"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/detailTime"
-        android:layout_alignLeft="@+id/detailTime"
-        android:layout_alignStart="@+id/detailTime" />
+        android:layout_alignEnd="@+id/detailTime"
+        android:layout_alignRight="@+id/detailTime" />
 
     <TextView
-        android:id="@+id/detailDescriptionContent"
+        android:id="@+id/detailDetailsContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/detailDescription"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_alignTop="@+id/detailDetails"
+        android:layout_toEndOf="@+id/detailDetails"
+        android:layout_toRightOf="@+id/detailDetails" />
 
     <TextView
         android:id="@+id/detailOwnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Event creator:"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/detailDescription"
-        android:layout_alignLeft="@+id/detailDescription"
-        android:layout_alignStart="@+id/detailDescription" />
+        android:text="Owner:"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/detailDetails"
+        android:layout_alignEnd="@+id/detailDetails"
+        android:layout_alignRight="@+id/detailDetails" />
 
     <TextView
         android:id="@+id/detailOwnerNameContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_alignTop="@+id/detailOwnerName"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
+        android:layout_toRightOf="@+id/detailOwnerName" />
 
     <Button
         android:id="@+id/eventDeleteButton"

@@ -64,7 +64,7 @@ public class EventDetailActivity extends AppCompatActivity {
         timeView.setText(timeText);
 
         //Description
-        descriptionView = (TextView) findViewById(R.id.detailDescriptionContent);
+        descriptionView = (TextView) findViewById(R.id.detailDetailsContent);
         descriptionView.setText(event.description);
 
         //Name

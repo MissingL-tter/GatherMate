@@ -81,7 +81,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
                     timeItem.setText("Starts in " + timeUntilDone / 1000 + " Seconds");
                 }
 
-                if (!travelTimeItem.getText().equals("...")) {
+                if (!travelTimeItem.getText().equals("")) {
                     Long travelTime = 0L;
                     Pattern pattern;
                     Matcher matcher;
