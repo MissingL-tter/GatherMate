@@ -35,59 +35,61 @@ public class LocationHandler implements LocationListener {
     RequestQueue requestQueue;
     double lat;
     double lng;
+    EventsListAdapter adapterbecuasefuckyou;
 
-    public LocationHandler(Activity context) {
-            this.context = context;
-            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-            criteria.setPowerRequirement(Criteria.POWER_LOW);
-            requestQueue = Volley.newRequestQueue(context);
-            refresh();
+    public LocationHandler(Activity context, EventsListAdapter adapterbecuasefuckyou) {
+        this.context = context;
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        requestQueue = Volley.newRequestQueue(context);
+        this.adapterbecuasefuckyou = adapterbecuasefuckyou;
+        refresh();
     }
 
-    public void requestPermission () {
-        ActivityCompat.requestPermissions(context, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  }, 9);
+    public void requestPermission() {
+        ActivityCompat.requestPermissions(context, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 9);
     }
 
-    public void refresh () {
+    public void refresh() {
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermission();
         }
-        if(locationEnabled()) {
+        if (locationEnabled()) {
             provider = locationManager.getBestProvider(criteria, true);
-            locationManager.requestLocationUpdates(provider, 30000, 100, this);
+            locationManager.requestLocationUpdates(provider, 1000, 100, this);
             location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
                 lat = location.getLatitude();
                 lng = location.getLongitude();
             }
-        }else {
+        } else {
             //TODO: Prompt User to Enable Location
             // Will do this later, for now, do nothing.
         }
     }
 
-    public void createRequest (Event event, final TextView travelTimeItem) {
-        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + lat + "," + lng + "&destination=" + event.lat + ","+ event.lng +"&key=" + MAPS_API_KEY;
+    public void createRequest(Event event, final TextView travelTimeItem) {
+        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + lat + "," + lng + "&destination=" + event.lat + "," + event.lng + "&key=" + MAPS_API_KEY;
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject mapsResponse) {
-                            try {
-                                String travelTime = mapsResponse.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("duration").getString("text");
-                                travelTimeItem.setText(travelTime + " away");
-                            } catch (JSONException e) {
-                                travelTimeItem.setText("");
-                            }
-            }
-        },
-        new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                        try {
+                            String travelTime = mapsResponse.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("duration").getString("text");
+                            travelTimeItem.setText(travelTime + " away");
+                        } catch (JSONException e) {
+                            travelTimeItem.setText("");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
-            }
-        });
+                    }
+                });
 
         // Add the request to the RequestQueue.
         requestQueue.add(jsonRequest);
@@ -102,7 +104,7 @@ public class LocationHandler implements LocationListener {
         this.location = location;
         lat = location.getLatitude();
         lng = location.getLongitude();
-        context.recreate();
+        adapterbecuasefuckyou.notifyDataSetChanged();
     }
 
     @Override

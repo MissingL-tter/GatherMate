@@ -28,7 +28,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         super(context, R.layout.list_layout, eventList);
         this.context = context;
         this.eventList = eventList;
-        locationHandler = new LocationHandler(context);
+        locationHandler = new LocationHandler(context, this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -36,9 +36,14 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        LayoutInflater inflater = context.getLayoutInflater();
+        View listViewItem;
+        if (convertView != null) {
+            listViewItem = convertView;
+        }else {
+            LayoutInflater inflater = context.getLayoutInflater();
+            listViewItem = inflater.inflate(R.layout.list_layout, null, true);
+        }
 
-        View listViewItem = inflater.inflate(R.layout.list_layout, null, true);
 
         final Event event = eventList.get(position);
 
