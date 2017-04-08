@@ -37,11 +37,11 @@ public class LocationHandler implements LocationListener {
     double lng;
 
     public LocationHandler(Activity context) {
-        this.context = context;
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        requestQueue = Volley.newRequestQueue(context);
-        refresh();
+            this.context = context;
+            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            criteria.setPowerRequirement(Criteria.POWER_LOW);
+            requestQueue = Volley.newRequestQueue(context);
+            refresh();
     }
 
     public void requestPermission () {
@@ -54,12 +54,11 @@ public class LocationHandler implements LocationListener {
         }
         if(locationEnabled()) {
             provider = locationManager.getBestProvider(criteria, true);
+            locationManager.requestLocationUpdates(provider, 30000, 100, this);
             location = locationManager.getLastKnownLocation(provider);
             if (location != null) {
                 lat = location.getLatitude();
                 lng = location.getLongitude();
-            } else {
-                locationManager.requestLocationUpdates(provider, 60000, 0, this);
             }
         }else {
             //TODO: Prompt User to Enable Location
@@ -75,12 +74,12 @@ public class LocationHandler implements LocationListener {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject mapsResponse) {
-                        try {
-                            String travelTime = mapsResponse.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("duration").getString("text");
-                            travelTimeItem.setText(travelTime + " away");
-                        } catch (JSONException e) {
-                            travelTimeItem.setText("");
-                        }
+                            try {
+                                String travelTime = mapsResponse.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("duration").getString("text");
+                                travelTimeItem.setText(travelTime + " away");
+                            } catch (JSONException e) {
+                                travelTimeItem.setText("");
+                            }
             }
         },
         new Response.ErrorListener() {
@@ -100,9 +99,10 @@ public class LocationHandler implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        context.recreate();
+        this.location = location;
         lat = location.getLatitude();
         lng = location.getLongitude();
+        context.recreate();
     }
 
     @Override
