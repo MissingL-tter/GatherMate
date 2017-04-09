@@ -12,7 +12,7 @@
         android:ems="10"
         android:hint="Enter Short Description"
         android:inputType="textPersonName"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="64dp"
         android:layout_below="@+id/addEventTimeTextView"
         android:layout_centerHorizontal="true" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="58dp"
+        android:layout_marginBottom="64dp"
         android:text="Create Event!" />
 
     <Button
@@ -31,10 +31,9 @@
         android:layout_height="wrap_content"
         android:text="Set Time"
         android:onClick="setTimeOnClick"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:layout_marginLeft="100dp"
         android:layout_below="@+id/addEventDescriptionEditText" />
-
 
     <Button
         android:id="@+id/addEventSetDateButton"
@@ -42,17 +41,9 @@
         android:layout_height="wrap_content"
         android:text="Set Date"
         android:onClick="setDateOnClick"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:layout_marginLeft="196dp"
         android:layout_below="@+id/addEventDescriptionEditText" />
-
-    <TextView
-        android:id="@+id/addEventTimeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/listDescription"
-        android:layout_centerHorizontal="true"
-        android:text="   " />
 
     <fragment
         android:id="@+id/place_autocomplete_fragment"
