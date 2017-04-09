@@ -128,7 +128,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_events_app_bar, menu);
 
-        final MenuItem searchItem = menu.findItem(R.id.socialFindFriends);
+        final MenuItem searchItem = menu.findItem(R.id.appBarAddFriends);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint("Find Users by Email...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -171,7 +171,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.socialFriendsList:
+            case R.id.appBarFriendsList:
                 //TODO: Implement Friends List
                 //This could be an entire activity, a fragment, or a ListView in a PopupWindow
                 System.out.println("FRIENDS_LIST_CLICKED");

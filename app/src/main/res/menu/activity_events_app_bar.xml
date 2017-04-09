@@ -9,14 +9,14 @@
         app:showAsAction="always">
         <menu>
             <item
-                android:id="@+id/socialFindFriends"
+                android:id="@+id/appBarAddFriends"
                 android:icon="@drawable/ic_person_add_white_24dp"
                 android:title="Add Friends"
                 app:actionViewClass="android.support.v7.widget.SearchView"
                 app:showAsAction="ifRoom|collapseActionView" />
 
             <item
-                android:id="@+id/socialFriendsList"
+                android:id="@+id/appBarFriendsList"
                 android:icon="@drawable/ic_people_white_24dp"
                 android:title="Friends List"
                 app:showAsAction="ifRoom" />
