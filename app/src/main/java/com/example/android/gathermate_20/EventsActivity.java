@@ -95,12 +95,12 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             }
         });
         */
-        databaseEvents.addValueEventListener(new ValueEventListener() {
+        databaseEvents.child("eventdb").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 eventList.clear();
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot eventSnapshot : userSnapshot.child("events").getChildren()) {
+                    for (DataSnapshot eventSnapshot : userSnapshot.getChildren()) {
                         Event event = eventSnapshot.getValue(Event.class);
                         event.uid = (userSnapshot.getKey());
                         event.eventId = (eventSnapshot.getKey());

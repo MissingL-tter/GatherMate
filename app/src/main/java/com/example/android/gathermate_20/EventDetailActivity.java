@@ -88,7 +88,7 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     public void deleteEvent (View v, String uid, String eventId) {
-        databaseEvents.child(uid).child("events").child(eventId).removeValue();
+        databaseEvents.child("eventdb").child(uid).child(eventId).removeValue();
         Intent intent = new Intent(EventDetailActivity.this, EventsActivity.class);
         startActivity(intent);
     }

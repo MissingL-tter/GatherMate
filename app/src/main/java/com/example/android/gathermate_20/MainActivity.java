@@ -47,17 +47,18 @@ public class MainActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
                 final FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null) {
+                    final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("userdb");
                     final String uid = user.getUid();
-                    database.child(uid).addValueEventListener(new ValueEventListener() {
+                    database.child(uid).child("info").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (!dataSnapshot.exists()) {
                                 HashMap<String, String> newUser = new HashMap<>();
                                 newUser.put("name",user.getDisplayName());
-                                database.child(uid).setValue(newUser);
+                                newUser.put("email",user.getEmail());
+                                database.child(uid).child("info").setValue(newUser);
                             }
                         }
 
