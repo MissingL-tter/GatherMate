@@ -30,9 +30,6 @@ public class MainActivity extends AppCompatActivity {
     SignInButton googleSignInButton;
     GoogleApiClient mGoogleApiClient;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,15 +68,31 @@ public class MainActivity extends AppCompatActivity {
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                signIn();
+                /*
                 switch (view.getId()) {
                     case R.id.loginGoogleSignInButton:
                         signIn();
                         break;
                     // ...
                 }
+                */
             }
         });
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthListener);
+    }
+
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -111,9 +124,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                String firstName, lastName;
+                String firstName;
                 firstName = account.getGivenName();
-                lastName = account.getFamilyName();
                 Toast.makeText(MainActivity.this,"Welcome" + " " + firstName + "!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, EventsActivity.class);
                 startActivity(intent);
