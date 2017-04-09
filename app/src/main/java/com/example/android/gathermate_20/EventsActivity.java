@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -56,9 +57,6 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                 Event event = (Event) parent.getItemAtPosition(position);
                 Intent intent = new Intent(EventsActivity.this, EventDetailActivity.class);
                 intent.putExtra("event", event);
-                if (firebaseAuth.getCurrentUser().getUid().equals(event.uid)) {
-                    intent.putExtra("isOwner",true);
-                }
                 startActivity(intent);
             }
         });
@@ -77,14 +75,34 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
     protected void onStart() {
         super.onStart();
 
+        /*
+        DatabaseReference eventFetcher = databaseEvents.child(firebaseAuth.getCurrentUser().getUid()).child("friends");
+        eventFetcher.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot friend) {
+                for (DataSnapshot friendEvent : friend.child("events").getChildren()) {
+                    Event event = friendEvent.getValue(Event.class);
+                    event.uid = (friend.key());
+                    event.eventId = (friendEvent.getKey());
+
+                    eventList.add(event);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        */
         databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 eventList.clear();
-                for (DataSnapshot eventListSnapshot : dataSnapshot.getChildren()) {
-                    for (DataSnapshot eventSnapshot : eventListSnapshot.getChildren()) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot eventSnapshot : userSnapshot.child("events").getChildren()) {
                         Event event = eventSnapshot.getValue(Event.class);
-                        event.uid = (eventListSnapshot.getKey());
+                        event.uid = (userSnapshot.getKey());
                         event.eventId = (eventSnapshot.getKey());
 
                         eventList.add(event);

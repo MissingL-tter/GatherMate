@@ -20,7 +20,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
@@ -39,7 +47,25 @@ public class MainActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() != null) {
+                final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                final FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user != null) {
+                    final String uid = user.getUid();
+                    database.child(uid).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!dataSnapshot.exists()) {
+                                HashMap<String, String> newUser = new HashMap<>();
+                                newUser.put("name",user.getDisplayName());
+                                database.child(uid).setValue(newUser);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     startActivity(new Intent(MainActivity.this, EventsActivity.class));
                 }
             }

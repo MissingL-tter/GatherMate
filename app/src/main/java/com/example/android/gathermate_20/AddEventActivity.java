@@ -77,7 +77,7 @@ public class AddEventActivity extends FragmentActivity {
     private void createEvent() {
         FirebaseUser fbUser = firebaseAuth.getCurrentUser();
 
-        DatabaseReference eventReference = databaseReference.child(fbUser.getUid()).push();
+        DatabaseReference eventReference = databaseReference.child(fbUser.getUid()).child("events").push();
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(dateDialogHandler.year, dateDialogHandler.month, dateDialogHandler.day, timeDialogHandler.hour, timeDialogHandler.minute);

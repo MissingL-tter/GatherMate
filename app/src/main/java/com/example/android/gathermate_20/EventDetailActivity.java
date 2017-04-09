@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -72,8 +73,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
         //Delete
         deleteButton = (Button) findViewById(R.id.eventDeleteButton);
-        isOwner = intent.getBooleanExtra("isOwner",false);
-        if (isOwner) {
+        if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(event.uid)) {
             nameView.setText("You");
             deleteButton.setVisibility(View.VISIBLE);
             deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +88,7 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     public void deleteEvent (View v, String uid, String eventId) {
-        databaseEvents.child(uid).child(eventId).removeValue();
+        databaseEvents.child(uid).child("events").child(eventId).removeValue();
         Intent intent = new Intent(EventDetailActivity.this, EventsActivity.class);
         startActivity(intent);
     }
