@@ -44,7 +44,6 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
             listViewItem = inflater.inflate(R.layout.list_layout, null, true);
         }
 
-
         final Event event = eventList.get(position);
 
         //Venue

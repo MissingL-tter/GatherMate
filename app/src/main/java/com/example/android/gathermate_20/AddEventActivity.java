@@ -54,12 +54,11 @@ public class AddEventActivity extends FragmentActivity {
             @Override
             public void onPlaceSelected(Place place) {
                 pickedPlace = place;
-                Log.i("PLACE_AUTO", "Place: " + place.getName());
             }
 
             @Override
             public void onError(Status status) {
-                Log.i("PLACE_AUTO", "Error: " + status.toString());
+                Log.e("PLACE_AUTO", "Error: " + status.toString());
             }
         });
     }
