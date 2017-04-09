@@ -27,7 +27,7 @@ public class Event implements Parcelable {
         this.eventId = eventId;
     }
 
-    public Event(Parcel in) {
+    private Event(Parcel in) {
         String[] data = new String[8];
 
         in.readStringArray(data);
@@ -60,14 +60,14 @@ public class Event implements Parcelable {
         });
     }
 
-    public HashMap<String, String> toHashmap () {
-        HashMap<String, String> m = new HashMap<>();
+    public HashMap<String, Object> toHashmap () {
+        HashMap<String, Object> m = new HashMap<>();
         m.put("ownerName",this.ownerName);
         m.put("description",this.description);
         m.put("venueName",this.venueName);
-        m.put("lat",this.lat.toString());
-        m.put("lng",this.lng.toString());
-        m.put("time",this.time.toString());
+        m.put("lat",this.lat);
+        m.put("lng",this.lng);
+        m.put("time",this.time);
         return m;
     }
 
