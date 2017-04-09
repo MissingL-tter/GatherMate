@@ -42,7 +42,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
         new DrawerBuilder().withActivity(this).build();
-        databaseEvents = FirebaseDatabase.getInstance().getReference();
+        databaseEvents = FirebaseDatabase.getInstance().getReference().child("eventdb");
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -76,7 +76,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         super.onStart();
 
         /*
-        DatabaseReference eventFetcher = databaseEvents.child(firebaseAuth.getCurrentUser().getUid()).child("friends");
+        DatabaseReference eventFetcher = databaseEvents.child(firebaseAuth.getCurrentUser().getUid()).child("friends"));
         eventFetcher.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot friend) {
@@ -95,7 +95,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             }
         });
         */
-        databaseEvents.child("eventdb").addValueEventListener(new ValueEventListener() {
+        databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 eventList.clear();
