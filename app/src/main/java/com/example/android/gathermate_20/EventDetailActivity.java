@@ -6,6 +6,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,7 +27,6 @@ public class EventDetailActivity extends AppCompatActivity {
     TextView descriptionView;
     TextView nameView;
     Button deleteButton;
-    boolean isOwner;
 
     private DatabaseReference databaseEvents;
 
@@ -33,6 +35,8 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         Intent intent = getIntent();
         final Event event = intent.getParcelableExtra("event");
 
@@ -91,5 +95,26 @@ public class EventDetailActivity extends AppCompatActivity {
         databaseEvents.child("eventdb").child(uid).child(eventId).removeValue();
         Intent intent = new Intent(EventDetailActivity.this, EventsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_event_detail_app_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.appBarSettings:
+                System.out.println("SETTINGS_CLICKED");
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

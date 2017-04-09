@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
-    private static final String TAG = "LOGIN_ACTIVITY";
+    private static final String TAG = "MAIN";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     SignInButton googleSignInButton;

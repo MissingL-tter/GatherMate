@@ -12,6 +12,8 @@ import android.widget.TimePicker;
 
 public class TimeDialogHandler extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
 
+    private static final String TAG = "TIME_DIALOG";
+
     Integer hour;
     Integer minute;
 

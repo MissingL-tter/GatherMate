@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.gathermate_20.MainActivity"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp"
-    android:background="@drawable/applogin">>
+    android:background="@drawable/applogin">
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/loginGoogleSignInButton"

@@ -12,6 +12,8 @@ import android.widget.DatePicker;
 
 public class DateDialogHandler extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
+    private static final String TAG = "DATE_DIALOG";
+
     Integer year;
     Integer month;
     Integer day;

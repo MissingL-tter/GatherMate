@@ -25,6 +25,8 @@ import org.json.JSONObject;
 
 public class LocationHandler implements LocationListener{
 
+    private static final String TAG = "LOCATION";
+
     public final String MAPS_API_KEY = "AIzaSyBxZCGrI9rkcMDZnipjqI9MMIswRGAzwso";
 
     private Activity context;
@@ -82,7 +84,7 @@ public class LocationHandler implements LocationListener{
                                 travelTimeItem.setText(travelTime + " away");
                             } catch (JSONException e) {
                                 travelTimeItem.setText("");
-                                Log.e("CREATE_REQUEST_"+event.uid, "Maps Response: No Route Found");
+                                Log.e(TAG, "Maps Response: No Route Found");
                             }
                         }
                     },
@@ -97,7 +99,7 @@ public class LocationHandler implements LocationListener{
 
         }else {
             travelTimeItem.setText("");
-            Log.e("CREATE_REQUEST_"+event.uid, "No Location Permission");
+            Log.e(TAG, "No Location Permission");
         }
     }
 

@@ -2,21 +2,18 @@ package com.example.android.gathermate_20;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.icu.util.Calendar;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,26 +26,19 @@ import java.util.List;
 
 public class EventsActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
-    FloatingActionButton addEventButton;
+    private static final String TAG = "EVENTS";
+
     ListView listViewEvents;
+    DatabaseReference databaseEvents;
     List<Event> eventList;
-
-    private DatabaseReference databaseEvents;
-    private FirebaseAuth firebaseAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         new DrawerBuilder().withActivity(this).build();
-        databaseEvents = FirebaseDatabase.getInstance().getReference().child("eventdb");
-
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        eventList = new ArrayList<>();
-
-        addEventButton = (FloatingActionButton) findViewById(R.id.eventAddEventButton);
 
         listViewEvents = (ListView) findViewById(R.id.listViewEvents);
         listViewEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,40 +51,9 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             }
         });
 
-        addEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startAddEvent();
-            }
-        });
+        databaseEvents = FirebaseDatabase.getInstance().getReference().child("eventdb");
+        eventList = new ArrayList<>();
 
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        /*
-        DatabaseReference eventFetcher = databaseEvents.child(firebaseAuth.getCurrentUser().getUid()).child("friends"));
-        eventFetcher.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot friend) {
-                for (DataSnapshot friendEvent : friend.child("events").getChildren()) {
-                    Event event = friendEvent.getValue(Event.class);
-                    event.uid = (friend.key());
-                    event.eventId = (friendEvent.getKey());
-
-                    eventList.add(event);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        */
         databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -118,6 +77,15 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
 
             }
         });
+
+        FloatingActionButton addEventButton = (FloatingActionButton) findViewById(R.id.eventAddEventButton);
+        addEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAddEvent();
+            }
+        });
+
     }
 
     private void startAddEvent() {
@@ -126,12 +94,11 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case 11: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG);
                     this.recreate();
                 } else {
                     //TODO: Handle Location Permission Denied
@@ -139,6 +106,35 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                     //For now we are letting Androids "Don't show again" feature handle it
                 }
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_events_app_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.socialFindFriends:
+                System.out.println("ADD_FRIENDS_CLICKED");
+                return true;
+
+            case R.id.socialFriendsList:
+                System.out.println("FRIENDS_LIST_CLICKED");
+                return true;
+
+            case R.id.appBarSettings:
+                System.out.println("SETTINGS_CLICKED");
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
         }
     }
 }

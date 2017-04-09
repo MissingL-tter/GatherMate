@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
 
 public class EventsListAdapter extends ArrayAdapter<Event> {
 
+    private static final String TAG = "EVENTS_LIST";
+
     private Activity context;
     private List<Event> eventList;
     LocationHandler locationHandler;
@@ -80,7 +82,8 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
 
             public void onFinish() {
 
-                travelTimeItem.setTextColor(context.getResources().getColor(R.color.material_drawer_secondary_text));
+
+                travelTimeItem.setTextColor(travelTimeItem.getTextColors().getDefaultColor());
 
                 calendar.setTimeInMillis(event.time);
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);

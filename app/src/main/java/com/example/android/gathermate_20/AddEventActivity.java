@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddEventActivity extends FragmentActivity {
+
+    private static final String TAG = "ADD_EVENT";
+
     private DatabaseReference databaseReference;
     private FirebaseAuth firebaseAuth;
     private Place pickedPlace;
@@ -58,7 +61,7 @@ public class AddEventActivity extends FragmentActivity {
 
             @Override
             public void onError(Status status) {
-                Log.e("PLACE_AUTO", "Error: " + status.toString());
+                Log.e(TAG, "Error: " + status.toString());
             }
         });
     }
