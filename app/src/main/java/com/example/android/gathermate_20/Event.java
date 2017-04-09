@@ -3,7 +3,9 @@ package com.example.android.gathermate_20;
 import android.os.Parcelable;
 import android.os.Parcel;
 
-public class Event implements Parcelable{
+import java.util.HashMap;
+
+public class Event implements Parcelable {
 
     public String description, venueName, ownerName, uid, eventId;
     public Double lat, lng;
@@ -56,6 +58,17 @@ public class Event implements Parcelable{
                 this.uid,
                 this.eventId
         });
+    }
+
+    public HashMap<String, String> toHashmap () {
+        HashMap<String, String> m = new HashMap<>();
+        m.put("ownerName",this.ownerName);
+        m.put("description",this.description);
+        m.put("venueName",this.venueName);
+        m.put("lat",this.lat.toString());
+        m.put("lng",this.lng.toString());
+        m.put("time",this.time.toString());
+        return m;
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

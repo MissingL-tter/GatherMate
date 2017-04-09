@@ -92,7 +92,7 @@ public class AddEventActivity extends FragmentActivity {
             fbUser.getDisplayName(),
             fbUser.getUid(),
             eventReference.getKey());
-        eventReference.setValue(event);
+        eventReference.setValue(event.toHashmap());
 
         Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();
         finish();
