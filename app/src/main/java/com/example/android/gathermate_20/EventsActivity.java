@@ -37,6 +37,8 @@ import java.util.List;
 
 public class EventsActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
+
+
     private static final String TAG = "EVENTS";
 
     private final Activity context = this;
@@ -69,11 +71,13 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             }
         });
 
+        //Get the UID for this user, the user database, the event database, and initialize eventList
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseUsers = FirebaseDatabase.getInstance().getReference().child("userdb");
         databaseEvents = FirebaseDatabase.getInstance().getReference().child("eventdb");
         eventList = new ArrayList<>();
 
+        //Get events from the databaseEvents, and update the view onDataChange
         databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -93,37 +97,41 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {}
 
-            }
         });
 
+        //Find AddEventButton and create listener to start AddEventActivity
         FloatingActionButton addEventButton = (FloatingActionButton) findViewById(R.id.eventAddEventButton);
         addEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startAddEvent();
+                Intent intent = new Intent(context, AddEventActivity.class);
+                startActivity(intent);
             }
         });
 
     }
 
-    private void startAddEvent() {
-        Intent intent = new Intent(this, AddEventActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the App Bar
         getMenuInflater().inflate(R.menu.activity_events_app_bar, menu);
 
+        //Create MenuItem variables to be used in onOptionSelected
         searchEmailItem = menu.findItem(R.id.appBarAddFriendsEmail);
         searchNameItem = menu.findItem(R.id.appBarAddFriendsName);
 
-        searchEmailItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //When the user clicks an Add Friend search option, open the search bar
+            //Wait for the user to submit text
+            //Search the database and create a popup detailing the results
+            case R.id.appBarAddFriendsEmail:
                 searchNameItem.collapseActionView();
                 searchView = (SearchView) MenuItemCompat.getActionView(searchEmailItem);
                 searchView.setQueryHint("Find Users by Email...");
@@ -200,19 +208,12 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                     }
 
                     @Override
-                    public boolean onQueryTextChange(String newText) {
-                        return false;
-                    }
+                    public boolean onQueryTextChange(String newText) { return false; }
 
                 });
+                return true;
 
-                return false;
-            }
-        });
-
-        searchNameItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            case R.id.appBarAddFriendsName:
                 searchEmailItem.collapseActionView();
                 searchView = (SearchView) MenuItemCompat.getActionView(searchNameItem);
                 searchView.setQueryHint("Find Users by Name...");
@@ -245,27 +246,19 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                     }
 
                     @Override
-                    public boolean onQueryTextChange(String newText) {
-                        return false;
-                    }
+                    public boolean onQueryTextChange(String newText) { return false; }
+
                 });
+                return true;
 
-                return false;
-            }
-        });
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+            //Do Something when the user selects friends list
             case R.id.appBarFriendsList:
                 //TODO: Implement Friends List
                 //This could be an entire activity, a fragment, or a ListView in a PopupWindow
                 System.out.println("FRIENDS_LIST_CLICKED");
                 return true;
 
+            //Do something when the user selects settings
             case R.id.appBarSettings:
                 //TODO: Implement Settings Activity
                 //Manual XML coding to make the cog icon generate a list
@@ -278,6 +271,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         }
     }
 
+    //When we receive a confirm or deny of location service permission,
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -288,7 +282,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                 } else {
                     //TODO: Handle Location Permission Denied
                     //Presumably never request an update again
-                    //For now we are letting Androids "Don't show again" feature handle it
+                    //For now we are letting Android hide the prompts if the user selects "Never Show Again"
                 }
             }
         }

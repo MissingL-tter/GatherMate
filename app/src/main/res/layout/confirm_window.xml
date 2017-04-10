@@ -29,5 +29,5 @@
         android:layout_below="@+id/confirmWindowText"
         android:layout_alignEnd="@+id/confirmWindowText"
         android:layout_marginTop="32dp"
-        android:text="Dismiss" />
+        android:text="Deny" />
 </RelativeLayout>
