@@ -29,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
@@ -135,120 +136,14 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                 searchNameItem.collapseActionView();
                 searchView = (SearchView) MenuItemCompat.getActionView(searchEmailItem);
                 searchView.setQueryHint("Find Users by Email...");
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-                    LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View popupView;
-                    TextView popUpTextView;
-                    PopupWindow popupWindow;
-
-                    @Override
-                    public boolean onQueryTextSubmit(String emailQuery) {
-                        databaseUsers.orderByChild("info/email").equalTo(emailQuery).addListenerForSingleValueEvent(new ValueEventListener() {
-
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-                                    for(final DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                        //TODO: Make Better Formatting for PopupWindow, preferably make list beneath search bar
-                                        //PopupWindow or something similar
-                                        //For now the searchItem view is collapsing only if the user was found and added as a friend
-                                        if(popupWindow != null) {
-                                            popupWindow.dismiss();
-                                        }
-                                        popupView = layoutInflater.inflate(R.layout.confirm_window, (ViewGroup) findViewById(R.id.confirmWindow));
-                                        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
-                                        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-                                        popUpTextView = (TextView) popupView.findViewById(R.id.confirmWindowText);
-                                        popUpTextView.setText("Do you really want to add " + userSnapshot.child("info").child("name").getValue().toString() + " as a friend?");
-                                        popupView.findViewById(R.id.confirmWindowAccept).setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                databaseUsers.child(uid).child("friends").child(userSnapshot.getKey()).child("name").setValue(userSnapshot.child("info").child("name").getValue().toString());
-                                                searchEmailItem.collapseActionView();
-                                                popupWindow.dismiss();
-                                            }
-                                        });
-                                        popupView.findViewById(R.id.confirmWindowDeny).setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                popupWindow.dismiss();
-                                            }
-                                        });
-                                    }
-                                }else {
-                                    //TODO: Make Better Formatting for PopupWindow, preferably make list beneath search bar
-                                    //PopupWindow or something similar
-                                    //For now searchItem view stays open if the user was not found
-                                    if(popupWindow != null) {
-                                        popupWindow.dismiss();
-                                    }
-                                    popupView = layoutInflater.inflate(R.layout.warning_window, (ViewGroup) findViewById(R.id.warningWindow));
-                                    popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
-                                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-                                    popUpTextView = (TextView) popupView.findViewById(R.id.warningWindowText);
-                                    popUpTextView.setText("Could not find a user with the specified email");
-                                    popupView.findViewById(R.id.warningWindowDismiss).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            popupWindow.dismiss();
-                                        }
-                                    });
-                                }
-
-                                Log.e(TAG,"SEARCH: User Email Not Found");
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {}
-
-                        });
-
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) { return false; }
-
-                });
+                searchView.setOnQueryTextListener(makeSearchHandler("info/email",true));
                 return true;
 
             case R.id.appBarAddFriendsName:
                 searchEmailItem.collapseActionView();
                 searchView = (SearchView) MenuItemCompat.getActionView(searchNameItem);
                 searchView.setQueryHint("Find Users by Name...");
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String nameQuery) {
-                        databaseUsers.orderByChild("info/name").equalTo(nameQuery).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-                                    for(DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                        //TODO: Create prompt showing name of user and verifying adding them to friends
-                                        //PopupWindow or something similar
-                                        //For now the searchItem view is collapsing only if the user was found and added as a friend
-                                        databaseUsers.child(uid).child("friends").child(userSnapshot.getKey()).child("name").setValue(userSnapshot.child("info").child("name").getValue().toString());
-                                        searchNameItem.collapseActionView();
-                                    }
-                                }else {
-                                    //TODO: Create prompt indicating User Not Found
-                                    //PopupWindow or something similar
-                                    //For now searchItem view stays open if the user was not found
-                                    Log.e(TAG,"SEARCH: User Not Found");
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {}
-                        });
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) { return false; }
-
-                });
+                searchView.setOnQueryTextListener(makeSearchHandler("info/name",false));
                 return true;
 
             //Do Something when the user selects friends list
@@ -269,6 +164,97 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Make a SearchView.OnQueryTextListener that handles searches of the database at $searchByKey
+     * A value of searchByKey for email would be "info/email"
+     * the returned listener will construct a pop-up with a list of the results
+     * if findOne is true, only one match will be found at most
+     *
+     **/
+    private SearchView.OnQueryTextListener makeSearchHandler (final String searchByKey, final boolean findOne) {
+        return new SearchView.OnQueryTextListener() {
+
+            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View popupView;
+            TextView popUpTextView;
+            PopupWindow popupWindow;
+            DatabaseReference ref = databaseUsers;
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Query dbQuery = ref.orderByChild(searchByKey).equalTo(query);
+                if (findOne) {
+                    dbQuery = dbQuery.limitToFirst(1);
+                }
+                dbQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            for(final DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                //TODO: Make Better Formatting for PopupWindow, preferably make list beneath search bar
+                                //PopupWindow or something similar
+                                //For now the searchItem view is collapsing only if the user was found and added as a friend
+                                if(popupWindow != null) {
+                                    popupWindow.dismiss();
+                                }
+                                popupView = layoutInflater.inflate(R.layout.confirm_window, (ViewGroup) findViewById(R.id.eventsAppBar));
+                                popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
+                                popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                                popUpTextView = (TextView) popupView.findViewById(R.id.confirmWindowText);
+                                popUpTextView.setText("Do you really want to add " + userSnapshot.child("info").child("name").getValue().toString() + " as a friend?");
+                                popupView.findViewById(R.id.confirmWindowAccept).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        databaseUsers.child(uid).child("friends").child(userSnapshot.getKey()).child("name").setValue(userSnapshot.child("info").child("name").getValue().toString());
+                                        searchEmailItem.collapseActionView();
+                                        popupWindow.dismiss();
+                                    }
+                                });
+                                popupView.findViewById(R.id.confirmWindowDeny).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        popupWindow.dismiss();
+                                    }
+                                });
+                            }
+                        }else {
+                            //TODO: Make Better Formatting for PopupWindow, preferably make list beneath search bar
+                            //PopupWindow or something similar
+                            //For now searchItem view stays open if the user was not found
+                            if(popupWindow != null) {
+                                popupWindow.dismiss();
+                            }
+                            popupView = layoutInflater.inflate(R.layout.warning_window, (ViewGroup) findViewById(R.id.warningWindow));
+                            popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
+                            popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                            popUpTextView = (TextView) popupView.findViewById(R.id.warningWindowText);
+                            popUpTextView.setText("User not found");
+                            popupView.findViewById(R.id.warningWindowDismiss).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    popupWindow.dismiss();
+                                }
+                            });
+                        }
+
+                        Log.e(TAG,"SEARCH: User Not Found for key type "+searchByKey);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+
+                });
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) { return false; }
+
+        };
     }
 
     //When we receive a confirm or deny of location service permission,
