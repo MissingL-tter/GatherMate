@@ -29,8 +29,8 @@
 
         <activity android:name="com.example.android.gathermate_20.EventsActivity">
             <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
         </activity>
 
         <activity android:name="com.example.android.gathermate_20.AddEventActivity" />

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/md_dark_appbar"
+    android:id="@+id/confirmWindow">
+
+    <TextView
+        android:id="@+id/confirmWindowText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/confirmWindowAccept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/confirmWindowText"
+        android:layout_alignStart="@+id/confirmWindowText"
+        android:layout_marginTop="32dp"
+        android:text="Accept" />
+
+    <Button
+        android:id="@+id/confirmWindowDeny"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/confirmWindowText"
+        android:layout_alignEnd="@+id/confirmWindowText"
+        android:layout_marginTop="32dp"
+        android:text="Dismiss" />
+</RelativeLayout>

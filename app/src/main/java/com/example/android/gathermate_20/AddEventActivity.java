@@ -1,10 +1,7 @@
 package com.example.android.gathermate_20;
 
 
-import android.icu.util.Calendar;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
 
 public class AddEventActivity extends FragmentActivity {
 
@@ -45,7 +44,6 @@ public class AddEventActivity extends FragmentActivity {
 
         createEventButton = (Button) findViewById(R.id.addEventCreateEventButton);
         createEventButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
                 createEvent();
@@ -76,7 +74,6 @@ public class AddEventActivity extends FragmentActivity {
         dateDialogHandler.show(getFragmentManager(), "datePicker");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void createEvent() {
         FirebaseUser fbUser = firebaseAuth.getCurrentUser();
 
@@ -87,14 +84,14 @@ public class AddEventActivity extends FragmentActivity {
         Long time = calendar.getTimeInMillis();
 
         Event event = new Event(
-            descriptionET.getText().toString(),
-            pickedPlace.getName().toString(),
-            pickedPlace.getLatLng().latitude,
-            pickedPlace.getLatLng().longitude,
-            time,
-            fbUser.getDisplayName(),
-            fbUser.getUid(),
-            eventReference.getKey());
+                descriptionET.getText().toString(),
+                pickedPlace.getName().toString(),
+                pickedPlace.getLatLng().latitude,
+                pickedPlace.getLatLng().longitude,
+                time,
+                fbUser.getDisplayName(),
+                fbUser.getUid(),
+                eventReference.getKey());
         eventReference.setValue(event.toHashmap());
 
         Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();

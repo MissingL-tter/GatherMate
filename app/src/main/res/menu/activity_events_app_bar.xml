@@ -11,9 +11,20 @@
             <item
                 android:id="@+id/appBarAddFriends"
                 android:icon="@drawable/ic_person_add_white_24dp"
-                android:title="Add Friends"
-                app:actionViewClass="android.support.v7.widget.SearchView"
-                app:showAsAction="ifRoom|collapseActionView" />
+                android:title="Add Friends" >
+                <menu>
+                    <item
+                        android:id="@+id/appBarAddFriendsEmail"
+                        android:title="Add by Email"
+                        app:actionViewClass="android.support.v7.widget.SearchView"
+                        app:showAsAction="ifRoom|collapseActionView" />
+                    <item
+                        android:id="@+id/appBarAddFriendsName"
+                        android:title="Add by Name"
+                        app:actionViewClass="android.support.v7.widget.SearchView"
+                        app:showAsAction="ifRoom|collapseActionView" />
+                </menu>
+            </item>
 
             <item
                 android:id="@+id/appBarFriendsList"

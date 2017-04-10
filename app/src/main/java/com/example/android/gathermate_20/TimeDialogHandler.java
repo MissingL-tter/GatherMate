@@ -3,12 +3,11 @@ package com.example.android.gathermate_20;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
-import android.icu.util.Calendar;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 public class TimeDialogHandler extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
 
@@ -17,7 +16,6 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
     Integer hour;
     Integer minute;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
