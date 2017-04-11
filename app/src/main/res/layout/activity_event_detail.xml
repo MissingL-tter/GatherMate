@@ -140,6 +140,15 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:text="Location:" />
+
+        <Button
+            android:id="@+id/navigateToEventButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detailOwnerNameContent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:text="Show me the way!" />
     </RelativeLayout>
 
 </RelativeLayout>
