@@ -19,6 +19,8 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        // TODO: initialize, maybe to an hour from current time? (optional)
+
             Calendar calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int min = calendar.get(Calendar.MINUTE);

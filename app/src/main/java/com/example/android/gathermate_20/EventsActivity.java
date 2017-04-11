@@ -79,6 +79,8 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         databaseEvents = FirebaseDatabase.getInstance().getReference().child("eventdb");
         eventList = new ArrayList<>();
 
+        // TODO: only display events from friends
+
         //Get events from the databaseEvents, and update the view onDataChange
         databaseEvents.addValueEventListener(new ValueEventListener() {
             @Override

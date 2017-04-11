@@ -22,6 +22,8 @@ public class DateDialogHandler extends DialogFragment implements DatePickerDialo
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        // TODO: initialize to current day (optional)
+
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);

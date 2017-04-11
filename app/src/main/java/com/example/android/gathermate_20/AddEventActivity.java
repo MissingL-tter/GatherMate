@@ -83,6 +83,8 @@ public class AddEventActivity extends FragmentActivity {
         calendar.set(dateDialogHandler.year, dateDialogHandler.month, dateDialogHandler.day, timeDialogHandler.hour, timeDialogHandler.minute);
         Long time = calendar.getTimeInMillis();
 
+        // TODO: handle null values appropriately (fail or continue safely)
+
         Event event = new Event(
                 descriptionET.getText().toString(),
                 pickedPlace.getName().toString(),
