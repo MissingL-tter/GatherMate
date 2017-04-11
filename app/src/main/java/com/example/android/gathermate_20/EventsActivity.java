@@ -12,6 +12,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -128,6 +129,8 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final int emailInputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
+        final int nameInputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS;
         switch (item.getItemId()) {
             //When the user clicks an Add Friend search option, open the search bar
             //Wait for the user to submit text
@@ -136,14 +139,16 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                 searchNameItem.collapseActionView();
                 searchView = (SearchView) MenuItemCompat.getActionView(searchEmailItem);
                 searchView.setQueryHint("Find Users by Email...");
-                searchView.setOnQueryTextListener(makeSearchHandler("info/email",true));
+                searchView.setInputType(emailInputType);
+                searchView.setOnQueryTextListener(makeSearchHandler("info/email",true,searchEmailItem));
                 return true;
 
             case R.id.appBarAddFriendsName:
                 searchEmailItem.collapseActionView();
                 searchView = (SearchView) MenuItemCompat.getActionView(searchNameItem);
                 searchView.setQueryHint("Find Users by Name...");
-                searchView.setOnQueryTextListener(makeSearchHandler("info/name",false));
+                searchView.setInputType(nameInputType);
+                searchView.setOnQueryTextListener(makeSearchHandler("info/name",false,searchNameItem));
                 return true;
 
             //Do Something when the user selects friends list
@@ -173,7 +178,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
      * if findOne is true, only one match will be found at most
      *
      **/
-    private SearchView.OnQueryTextListener makeSearchHandler (final String searchByKey, final boolean findOne) {
+    private SearchView.OnQueryTextListener makeSearchHandler (final String searchByKey, final boolean findOne, final MenuItem thisItem) {
         return new SearchView.OnQueryTextListener() {
 
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -183,7 +188,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             DatabaseReference ref = databaseUsers;
 
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(final String query) {
                 Query dbQuery = ref.orderByChild(searchByKey).equalTo(query);
                 if (findOne) {
                     dbQuery = dbQuery.limitToFirst(1);
@@ -209,7 +214,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                                     @Override
                                     public void onClick(View v) {
                                         databaseUsers.child(uid).child("friends").child(userSnapshot.getKey()).child("name").setValue(userSnapshot.child("info").child("name").getValue().toString());
-                                        searchEmailItem.collapseActionView();
+                                        thisItem.collapseActionView();
                                         popupWindow.dismiss();
                                     }
                                 });
@@ -238,9 +243,9 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
                                     popupWindow.dismiss();
                                 }
                             });
+                            Log.e(TAG,"SEARCH: User Not Found for key type "+searchByKey+" "+query);
                         }
 
-                        Log.e(TAG,"SEARCH: User Not Found for key type "+searchByKey);
                     }
 
                     @Override

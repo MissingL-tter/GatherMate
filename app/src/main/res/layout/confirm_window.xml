@@ -7,11 +7,11 @@
 
     <TextView
         android:id="@+id/confirmWindowText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="TextView" />
+        android:layout_margin="16dp"
+        android:textSize="16sp"
+        android:text="Do you really want to add {friend name} as a friend?" />
 
     <Button
         android:id="@+id/confirmWindowAccept"
@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/confirmWindowText"
         android:layout_alignStart="@+id/confirmWindowText"
-        android:layout_marginTop="32dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="8dp"
         android:text="Accept" />
 
     <Button
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/confirmWindowText"
         android:layout_alignEnd="@+id/confirmWindowText"
-        android:layout_marginTop="32dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="8dp"
         android:text="Deny" />
 </RelativeLayout>
