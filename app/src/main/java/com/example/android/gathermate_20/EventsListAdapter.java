@@ -25,7 +25,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
     LocationHandler locationHandler;
 
     public EventsListAdapter(Activity context, List<Event> eventList) {
-        super(context, R.layout.list_layout, eventList);
+        super(context, R.layout.event_list_layout, eventList);
         this.context = context;
         this.eventList = eventList;
         locationHandler = new LocationHandler(context, this);
@@ -40,7 +40,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
             listViewItem = convertView;
         }else {
             LayoutInflater inflater = context.getLayoutInflater();
-            listViewItem = inflater.inflate(R.layout.list_layout, null, true);
+            listViewItem = inflater.inflate(R.layout.event_list_layout, null, true);
         }
 
         final Event event = eventList.get(position);

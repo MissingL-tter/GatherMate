@@ -27,15 +27,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.android.gathermate_20.EventsActivity">
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchableActivity" />
-        </activity>
+        <activity android:name="com.example.android.gathermate_20.EventsActivity" />
 
         <activity android:name="com.example.android.gathermate_20.AddEventActivity" />
 
         <activity android:name="com.example.android.gathermate_20.EventDetailActivity" />
+
+        <activity android:name="com.example.android.gathermate_20.FriendsActivity">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
 
     </application>
 

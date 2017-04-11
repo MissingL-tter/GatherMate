@@ -17,10 +17,8 @@
                 android:id="@+id/listVenueAndOwner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="venueName with ownerName" />
@@ -29,11 +27,9 @@
                 android:id="@+id/listTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/listVenueAndOwner"
                 android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Starts in:" />
@@ -44,9 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/listTime"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:text="" />
 
 
