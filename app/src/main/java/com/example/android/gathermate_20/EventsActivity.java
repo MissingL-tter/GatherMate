@@ -34,9 +34,8 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
     ListView listViewEvents;
     String uid;
     DatabaseReference databaseEvents;
+    ValueEventListener eventsEventListener;
     DatabaseReference databaseThisUser;
-    List<String> friendList;
-    List<Event> eventList;
     MenuItem searchEmailItem;
     MenuItem searchNameItem;
 
@@ -46,16 +45,15 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         setContentView(R.layout.activity_events);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //new DrawerBuilder().withActivity(this).build();
 
         listViewEvents = (ListView) findViewById(R.id.listViewEvents);
         listViewEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event event = (Event) parent.getItemAtPosition(position);
-                Intent intent = new Intent(EventsActivity.this, EventDetailActivity.class);
+                Intent intent = new Intent(context, EventDetailActivity.class);
                 intent.putExtra("event", event);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -63,8 +61,6 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseThisUser = FirebaseDatabase.getInstance().getReference().child("userdb").child(uid);
         databaseEvents = FirebaseDatabase.getInstance().getReference().child("eventdb");
-        friendList = new ArrayList<>();
-        eventList = new ArrayList<>();
 
         //Get Events only for friends and yourself
         getFriendEvents();
@@ -81,52 +77,16 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
 
     }
 
-    private void getFriendEvents() {
-        //Get friends from the databaseEvents, and update the list onDataChange
-        databaseThisUser.child("friends").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                friendList.clear();
-                for (DataSnapshot friendSnapshot : dataSnapshot.getChildren()) {
-                    friendList.add(friendSnapshot.getKey());
-                }
-
-                //Add this user to list of user and populate the events list
-                friendList.add(uid);
-                populateEvents();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-
-        });
+    @Override
+    public void onStop() {
+        databaseEvents.removeEventListener(eventsEventListener);
+        super.onStop();
     }
 
-    private void populateEvents() {
-        //Get events from the databaseEvents, and update the view onDataChange
-        databaseEvents.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                eventList.clear();
-                for(String friend : friendList) {
-                    DataSnapshot friendSnapshot = dataSnapshot.child(friend);
-                    for(DataSnapshot eventSnapshot : friendSnapshot.getChildren()){
-                        Event event = eventSnapshot.getValue(Event.class);
-                        event.uid = friendSnapshot.getKey();
-                        event.eventId = eventSnapshot.getKey();
-
-                        eventList.add(event);
-                    }
-                }
-
-                EventsListAdapter adapter = new EventsListAdapter(EventsActivity.this, eventList);
-                listViewEvents.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-
-        });
+    public void onRestart() {
+        super.onRestart();
+        //Get Events only for friends and yourself
+        getFriendEvents();
     }
 
     @Override
@@ -179,4 +139,60 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             }
         }
     }
+
+    /**
+     * Populate friendList with users that you have registered as friends
+     * For each member in friendList, populate the events list with that friend's events.
+     **/
+    private void getFriendEvents() {
+        final List<String> friendList = new ArrayList<>();
+        final List<Event> eventList = new ArrayList<>();
+
+        //Get friends from the this users database
+        databaseThisUser.child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                friendList.clear();
+                //Add this user to list and populate the list with friends
+                friendList.add(uid);
+                for (DataSnapshot friendSnapshot : dataSnapshot.getChildren()) {
+                    friendList.add(friendSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+
+        });
+
+        //Create listener for events
+        eventsEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                eventList.clear();
+                //Populated only from friend events
+                for(String friend : friendList) {
+                    DataSnapshot friendSnapshot = dataSnapshot.child(friend);
+                    for(DataSnapshot eventSnapshot : friendSnapshot.getChildren()){
+                        Event event = eventSnapshot.getValue(Event.class);
+                        event.uid = friendSnapshot.getKey();
+                        event.eventId = eventSnapshot.getKey();
+
+                        eventList.add(event);
+                    }
+                }
+
+                EventsListAdapter adapter = new EventsListAdapter(EventsActivity.this, eventList);
+                listViewEvents.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+
+        };
+
+        //Start the listener
+        databaseEvents.addValueEventListener(eventsEventListener);
+    }
+
 }

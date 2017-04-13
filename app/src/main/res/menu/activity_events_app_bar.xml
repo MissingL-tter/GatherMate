@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/appBarSocial"
-        android:icon="@drawable/ic_person_white_24dp"
+        android:icon="@drawable/ic_people_white_24dp"
         android:title="Social"
         app:showAsAction="always" />
 

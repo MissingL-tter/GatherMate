@@ -1,5 +1,6 @@
 package com.example.android.gathermate_20;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,18 +18,20 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
-public class EventDetailActivity extends AppCompatActivity {
+public class EventDetailActivity extends AppCompatActivity{
 
     private static final String TAG = "EVENT_DETAIL";
 
-    TextView locationView;
+    private final Activity context = this;
+
+    Event event;
+    TextView venueNameView;
     TextView dateView;
     TextView timeView;
     TextView descriptionView;
-    TextView nameView;
+    TextView ownerNameView;
     Button deleteButton;
     Button navigateButton;
-
 
     private DatabaseReference databaseEvents;
 
@@ -39,11 +42,11 @@ public class EventDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
-        final Event event = intent.getParcelableExtra("event");
+        event = intent.getParcelableExtra("event");
 
         //Location
-        locationView = (TextView) findViewById(R.id.detailVenueNameContent);
-        locationView.setText(event.venueName);
+        venueNameView = (TextView) findViewById(R.id.detailVenueNameContent);
+        venueNameView.setText(event.venueName);
 
         //Date and Time
         dateView = (TextView) findViewById(R.id.detailDateContent);
@@ -74,18 +77,20 @@ public class EventDetailActivity extends AppCompatActivity {
         descriptionView.setText(event.description);
 
         //Name
-        nameView = (TextView) findViewById(R.id.detailOwnerNameContent);
+        ownerNameView = (TextView) findViewById(R.id.detailOwnerNameContent);
 
         //Delete
         deleteButton = (Button) findViewById(R.id.eventDeleteButton);
         if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(event.uid)) {
-            nameView.setText("You");
+            ownerNameView.setText("You");
             deleteButton.setVisibility(View.VISIBLE);
             deleteButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) { deleteEvent(v, event.uid, event.eventId); }
+                public void onClick(View v) {
+                    deleteEvent(event.uid, event.eventId);
+                }
             });
         } else {
-            nameView.setText(event.ownerName);
+            ownerNameView.setText(event.ownerName);
             deleteButton.setVisibility(View.INVISIBLE);
         }
 
@@ -107,12 +112,6 @@ public class EventDetailActivity extends AppCompatActivity {
         });
     }
 
-    public void deleteEvent (View v, String uid, String eventId) {
-        databaseEvents.child("eventdb").child(uid).child(eventId).removeValue();
-        Intent intent = new Intent(EventDetailActivity.this, EventsActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -128,9 +127,19 @@ public class EventDetailActivity extends AppCompatActivity {
                 return true;
 
             default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void deleteEvent (String uid, String eventId) {
+        databaseEvents.child("eventdb").child(uid).child(eventId).removeValue();
+        Intent intent;
+        try {
+            intent = new Intent(context, Class.forName(getCallingActivity().getClassName()));
+        } catch (ClassNotFoundException e) {
+            intent = new Intent(context, EventsActivity.class);
+        }
+        finish();
+        startActivity(intent);
     }
 }
