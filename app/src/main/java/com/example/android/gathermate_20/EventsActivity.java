@@ -13,10 +13,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +35,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
     ListView listViewEvents;
     String uid;
     DatabaseReference databaseEvents;
-    ValueEventListener eventsEventListener;
+    ArrayList<ValueEventListener> friendEventListeners;
     DatabaseReference databaseThisUser;
     MenuItem searchEmailItem;
     MenuItem searchNameItem;
@@ -73,17 +73,19 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
 
     }
 
-    @Override
-    public void onStop() {
-        databaseEvents.removeEventListener(eventsEventListener);
-        super.onStop();
-    }
-
-    public void onRestart() {
-        super.onRestart();
-        //Get Events only for friends and yourself
-        getFriendEvents();
-    }
+//    @Override
+//    public void onStop() {
+//        for(ValueEventListener eventListener : friendEventListeners) {
+//            databaseEvents.removeEventListener(eventListener);
+//        }
+//        super.onStop();
+//    }
+//
+//    public void onRestart() {
+//        super.onRestart();
+//        //Get Events only for friends and yourself
+//        getFriendEvents();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,35 +167,46 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
 
     private void getEventsFrom(List<String> friendList) {
         final List<Event> eventList = new ArrayList<>();
+        EventsListAdapter adapter = new EventsListAdapter(EventsActivity.this, eventList);
+        listViewEvents.setAdapter(adapter);
 
-        //Create listener for events
-        eventsEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                eventList.clear();
-                //Populated only from friend events
-                for (String friend : friendList) {
-                    Log.e(TAG, friend);
-                    DataSnapshot friendSnapshot = dataSnapshot.child(friend);
-                    for (DataSnapshot eventSnapshot : friendSnapshot.getChildren()) {
-                        Event event = eventSnapshot.getValue(Event.class);
-                        event.uid = friendSnapshot.getKey();
-                        event.eventId = eventSnapshot.getKey();
+        for (String friend : friendList) {
+            //Create listener for each friends events
 
-                        eventList.add(event);
-                    }
+            databaseEvents.child(friend).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Event event = dataSnapshot.getValue(Event.class);
+                    event.uid = friend;
+                    event.eventId = dataSnapshot.getKey();
+                    eventList.add(event);
+                    adapter.notifyDataSetChanged();
                 }
 
-                EventsListAdapter adapter = new EventsListAdapter(EventsActivity.this, eventList);
-                listViewEvents.setAdapter(adapter);
-            }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    Log.e(TAG, dataSnapshot.getKey());
+                    for (Event event : eventList) {
+                        if (event.eventId.equals(dataSnapshot.getKey())) {
+                            eventList.remove(event);
+                            break;
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                }
 
-        //Start the listener
-        databaseEvents.addValueEventListener(eventsEventListener);
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        }
     }
 }
