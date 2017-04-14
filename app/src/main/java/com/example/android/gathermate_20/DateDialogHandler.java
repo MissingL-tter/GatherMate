@@ -10,7 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.widget.TextView;
 import android.widget.DatePicker;
 
-public class DateDialogHandler extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+public class DateDialogHandler extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "DATE_DIALOG";
 
@@ -24,12 +24,12 @@ public class DateDialogHandler extends DialogFragment implements DatePickerDialo
 
         // TODO: initialize to current day (optional)
 
-            Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+        return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     @Override

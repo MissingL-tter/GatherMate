@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 final FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null) {
+                if (user != null) {
                     final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("userdb");
                     final String uid = user.getUid();
                     database.child(uid).child("info").addValueEventListener(new ValueEventListener() {
@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (!dataSnapshot.exists()) {
                                 HashMap<String, String> newUser = new HashMap<>();
-                                newUser.put("name",user.getDisplayName());
-                                newUser.put("email",user.getEmail());
+                                newUser.put("name", user.getDisplayName());
+                                newUser.put("email", user.getEmail());
                                 database.child(uid).child("info").setValue(newUser);
                             }
                         }
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             handleSignInResult(result);
         }
     }
+
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
@@ -144,9 +146,10 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             // Signed out, show unauthenticated UI.
-            Toast.makeText(this,"Sign-in Was Unsuccessful", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Sign-in Was Unsuccessful", Toast.LENGTH_LONG).show();
         }
     }
+
     private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -156,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
                 String firstName;
                 firstName = account.getGivenName();
-                Toast.makeText(MainActivity.this,"Welcome" + " " + firstName + "!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Welcome" + " " + firstName + "!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, EventsActivity.class);
                 startActivity(intent);
                 // If sign in fails, display a message to the user. If sign in succeeds

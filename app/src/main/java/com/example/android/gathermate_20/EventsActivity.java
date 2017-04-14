@@ -146,7 +146,7 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         //Get friends from the this users database
         databaseThisUser.child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {;
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 friendList.clear();
                 //Add this user to list and populate the list with friends
                 friendList.add(uid);

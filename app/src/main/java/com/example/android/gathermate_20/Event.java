@@ -48,7 +48,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeStringArray(new String[] {
+        out.writeStringArray(new String[]{
                 this.description,
                 this.venueName,
                 this.lat.toString(),
@@ -60,14 +60,14 @@ public class Event implements Parcelable {
         });
     }
 
-    public HashMap<String, Object> toHashmap () {
+    public HashMap<String, Object> toHashmap() {
         HashMap<String, Object> m = new HashMap<>();
-        m.put("ownerName",this.ownerName);
-        m.put("description",this.description);
-        m.put("venueName",this.venueName);
-        m.put("lat",this.lat);
-        m.put("lng",this.lng);
-        m.put("time",this.time);
+        m.put("ownerName", this.ownerName);
+        m.put("description", this.description);
+        m.put("venueName", this.venueName);
+        m.put("lat", this.lat);
+        m.put("lng", this.lng);
+        m.put("time", this.time);
         return m;
     }
 

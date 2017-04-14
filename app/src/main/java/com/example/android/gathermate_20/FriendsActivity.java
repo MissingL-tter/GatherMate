@@ -192,9 +192,9 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                 builder.setMessage("Remove " + friendList.get(info.position).name + " from friends?");
                 builder.setCancelable(true);
                 builder.setPositiveButton("Yes", (dialog, id) -> {
-                            databaseThisUser.child("friends").child(friendList.get(info.position).uid).removeValue();
-                            dialog.cancel();
-                        });
+                    databaseThisUser.child("friends").child(friendList.get(info.position).uid).removeValue();
+                    dialog.cancel();
+                });
 
                 builder.setNegativeButton("No", (dialog, id) -> dialog.cancel());
                 AlertDialog alert = builder.create();
@@ -316,10 +316,10 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                                 builder.setMessage("Add " + userSnapshot.child("info/name").getValue().toString() + " as a friend?");
                                 builder.setCancelable(true);
                                 builder.setPositiveButton("Yes", (dialog, id) -> {
-                                            databaseThisUser.child("friends").child(userSnapshot.getKey()).child("name").setValue(userSnapshot.child("info/name").getValue().toString());
-                                            searchEmailItem.collapseActionView();
-                                            dialog.cancel();
-                                        });
+                                    databaseThisUser.child("friends").child(userSnapshot.getKey()).child("name").setValue(userSnapshot.child("info/name").getValue().toString());
+                                    searchEmailItem.collapseActionView();
+                                    dialog.cancel();
+                                });
                                 builder.setNegativeButton("No", (dialog, id) -> dialog.cancel());
                                 AlertDialog alert = builder.create();
                                 alert.show();
@@ -378,7 +378,6 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
 
                 return true;
             }
-
         };
     }
 

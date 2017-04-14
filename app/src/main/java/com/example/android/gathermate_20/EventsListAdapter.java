@@ -38,7 +38,7 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         View listViewItem;
         if (convertView != null) {
             listViewItem = convertView;
-        }else {
+        } else {
             LayoutInflater inflater = context.getLayoutInflater();
             listViewItem = inflater.inflate(R.layout.event_list_layout, null, true);
         }

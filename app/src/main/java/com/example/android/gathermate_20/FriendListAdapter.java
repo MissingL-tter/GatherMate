@@ -37,7 +37,7 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
         View listViewItem;
         if (convertView != null) {
             listViewItem = convertView;
-        }else {
+        } else {
             LayoutInflater inflater = context.getLayoutInflater();
             listViewItem = inflater.inflate(R.layout.friend_list_layout, null, true);
         }

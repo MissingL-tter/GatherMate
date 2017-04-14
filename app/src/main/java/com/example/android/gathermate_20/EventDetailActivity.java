@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
-public class EventDetailActivity extends AppCompatActivity{
+public class EventDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "EVENT_DETAIL";
 
@@ -60,12 +60,12 @@ public class EventDetailActivity extends AppCompatActivity{
         Integer minute = calendar.get(Calendar.MINUTE);
 
         String timeText = String.format("%d:%02d", hour, minute) + " " + "AM";
-        if(hour >= 12) {
-            if(hour > 12){
+        if (hour >= 12) {
+            if (hour > 12) {
                 hour -= 12;
             }
             timeText = String.format("%d:%02d", hour, minute) + " " + "PM";
-        }else if(hour == 0) {
+        } else if (hour == 0) {
             hour = 12;
             timeText = String.format("%d:%02d", hour, minute) + " " + "AM";
         }
@@ -98,7 +98,7 @@ public class EventDetailActivity extends AppCompatActivity{
             double lat = event.lat;
             double lng = event.lng;
 
-            Uri gmmIntentUri = Uri.parse("google.navigation:q="+String.valueOf(lat)+","+String.valueOf(lng));
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + String.valueOf(lat) + "," + String.valueOf(lng));
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
@@ -124,7 +124,7 @@ public class EventDetailActivity extends AppCompatActivity{
         }
     }
 
-    public void deleteEvent (String uid, String eventId) {
+    public void deleteEvent(String uid, String eventId) {
         databaseEvents.child("eventdb").child(uid).child(eventId).removeValue();
         Intent intent;
         try {
