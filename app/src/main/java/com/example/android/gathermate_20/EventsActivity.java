@@ -160,7 +160,6 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
-
         });
     }
 
@@ -192,11 +191,9 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
-
         };
 
         //Start the listener
         databaseEvents.addValueEventListener(eventsEventListener);
     }
-
 }

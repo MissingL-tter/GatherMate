@@ -97,7 +97,6 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
                 }
                 timeItem.setText(time);
             }
-
         }.start();
 
         return listViewItem;
@@ -138,5 +137,4 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
             }
         }
     }
-
 }

@@ -44,5 +44,4 @@ public class DateDialogHandler extends DialogFragment implements DatePickerDialo
         TextView timeTV = (TextView) getActivity().findViewById((R.id.addEventSetDateButton));
         timeTV.setText(date);
     }
-
 }

@@ -50,5 +50,4 @@ public class FriendListAdapter extends ArrayAdapter<Friend> {
 
         return listViewItem;
     }
-
 }

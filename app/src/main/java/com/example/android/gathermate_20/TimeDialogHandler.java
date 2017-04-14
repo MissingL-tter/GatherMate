@@ -49,5 +49,4 @@ public class TimeDialogHandler extends DialogFragment implements TimePickerDialo
         TextView timeTV = (TextView) getActivity().findViewById((R.id.addEventSetTimeButton));
         timeTV.setText((time));
     }
-
 }

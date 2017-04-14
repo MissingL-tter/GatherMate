@@ -46,31 +46,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("userdb");
-                    final String uid = user.getUid();
-                    database.child(uid).child("info").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (!dataSnapshot.exists()) {
-                                HashMap<String, String> newUser = new HashMap<>();
-                                newUser.put("name", user.getDisplayName());
-                                newUser.put("email", user.getEmail());
-                                database.child(uid).child("info").setValue(newUser);
-                            }
+        mAuthListener = firebaseAuth -> {
+            final FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                final DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("userdb");
+                final String uid = user.getUid();
+                database.child(uid).child("info").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (!dataSnapshot.exists()) {
+                            HashMap<String, String> newUser = new HashMap<>();
+                            newUser.put("name", user.getDisplayName());
+                            newUser.put("email", user.getEmail());
+                            database.child(uid).child("info").setValue(newUser);
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
-                    startActivity(new Intent(MainActivity.this, EventsActivity.class));
-                }
+                    }
+                });
+                startActivity(new Intent(MainActivity.this, EventsActivity.class));
             }
         };
 
@@ -85,29 +82,11 @@ public class MainActivity extends AppCompatActivity {
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Toast.makeText(MainActivity.this, "Connection failed", Toast.LENGTH_LONG).show();
-                    }
-                })
+                .enableAutoManage(this, connectionResult -> Toast.makeText(MainActivity.this, "Connection failed", Toast.LENGTH_LONG).show())
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-                /*
-                switch (view.getId()) {
-                    case R.id.loginGoogleSignInButton:
-                        signIn();
-                        break;
-                    // ...
-                }
-                */
-            }
-        });
+        googleSignInButton.setOnClickListener(view -> signIn());
     }
 
     @Override
@@ -170,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
                 }
-                // ...
             }
         });
     }

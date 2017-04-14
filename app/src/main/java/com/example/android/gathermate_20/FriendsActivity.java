@@ -109,7 +109,6 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                 }
-
             });
         });
     }
@@ -203,9 +202,7 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
 
             default:
                 return super.onContextItemSelected(item);
-
         }
-
     }
 
     //Get friends from the databaseEvents, and update the view onDataChange
@@ -233,7 +230,6 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
-
         };
 
         databaseThisUser.child("friends").addValueEventListener(thisUserEventListener);
@@ -338,13 +334,11 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                             alert.show();
                             Log.e(TAG, "SEARCH: User Not Found for key type " + searchByKey + " " + query);
                         }
-
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
-
                 });
 
                 searchView.clearFocus();

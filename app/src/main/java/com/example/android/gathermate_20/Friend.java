@@ -8,5 +8,4 @@ public class Friend {
         this.uid = uid;
         this.name = name;
     }
-
 }
