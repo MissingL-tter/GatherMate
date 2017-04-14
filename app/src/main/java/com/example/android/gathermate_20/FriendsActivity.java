@@ -86,34 +86,31 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
 
         getFriendList();
 
-        listViewFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                Friend friend = (Friend) parent.getItemAtPosition(position);
-                databaseEvents.child(friend.uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            List<Event> eventList = new ArrayList<>();
-                            for (DataSnapshot eventsSnapshot : dataSnapshot.getChildren()) {
-                                Event event = eventsSnapshot.getValue(Event.class);
-                                event.uid = dataSnapshot.getKey();
-                                event.eventId = eventsSnapshot.getKey();
-                                eventList.add(event);
-                            }
-                            initPopup(view);
-                            showEventPopup(eventList);
-                        } else {
-                            Log.e(TAG, "NO SNAPSHOT");
+        listViewFriends.setOnItemClickListener((parent, view, position, id) -> {
+            Friend friend = (Friend) parent.getItemAtPosition(position);
+            databaseEvents.child(friend.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        List<Event> eventList = new ArrayList<>();
+                        for (DataSnapshot eventsSnapshot : dataSnapshot.getChildren()) {
+                            Event event = eventsSnapshot.getValue(Event.class);
+                            event.uid = dataSnapshot.getKey();
+                            event.eventId = eventsSnapshot.getKey();
+                            eventList.add(event);
                         }
+                        initPopup(view);
+                        showEventPopup(eventList);
+                    } else {
+                        Log.e(TAG, "NO SNAPSHOT");
                     }
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
 
-                });
-            }
+            });
         });
     }
 
@@ -128,43 +125,6 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
         super.onRestart();
         getFriendList();
     }
-
-    //Get friends from the databaseEvents, and update the view onDataChange
-    private void getFriendList() {
-        friendList = new ArrayList<>();
-
-        thisUserEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                friendList.clear();
-                for (DataSnapshot friendSnapshot : dataSnapshot.getChildren()) {
-                    friendList.add(new Friend(
-                            friendSnapshot.getKey(),
-                            friendSnapshot.child("name").getValue().toString()
-                    ));
-                }
-
-                Collections.sort(friendList, new Comparator<Friend>() {
-                    @Override
-                    public int compare(Friend f1, Friend f2) {
-                        return f1.name.compareTo(f2.name);
-                    }
-                });
-                friendList.add(0, new Friend(uid, FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
-                FriendListAdapter adapter = new FriendListAdapter(context, friendList);
-                listViewFriends.setAdapter(adapter);
-                registerForContextMenu(listViewFriends);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-
-        };
-
-        databaseThisUser.child("friends").addValueEventListener(thisUserEventListener);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -231,22 +191,12 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("Remove " + friendList.get(info.position).name + " from friends?");
                 builder.setCancelable(true);
-                builder.setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                databaseThisUser.child("friends").child(friendList.get(info.position).uid).removeValue();
-                                dialog.cancel();
-                            }
+                builder.setPositiveButton("Yes", (dialog, id) -> {
+                            databaseThisUser.child("friends").child(friendList.get(info.position).uid).removeValue();
+                            dialog.cancel();
                         });
 
-                builder.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                builder.setNegativeButton("No", (dialog, id) -> dialog.cancel());
                 AlertDialog alert = builder.create();
                 alert.show();
                 return true;
@@ -256,6 +206,37 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
 
         }
 
+    }
+
+    //Get friends from the databaseEvents, and update the view onDataChange
+    private void getFriendList() {
+        friendList = new ArrayList<>();
+
+        thisUserEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                friendList.clear();
+                for (DataSnapshot friendSnapshot : dataSnapshot.getChildren()) {
+                    friendList.add(new Friend(
+                            friendSnapshot.getKey(),
+                            friendSnapshot.child("name").getValue().toString()
+                    ));
+                }
+
+                Collections.sort(friendList, (f1, f2) -> f1.name.compareTo(f2.name));
+                friendList.add(0, new Friend(uid, FirebaseAuth.getInstance().getCurrentUser().getDisplayName()));
+                FriendListAdapter adapter = new FriendListAdapter(context, friendList);
+                listViewFriends.setAdapter(adapter);
+                registerForContextMenu(listViewFriends);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        };
+
+        databaseThisUser.child("friends").addValueEventListener(thisUserEventListener);
     }
 
     /**
@@ -276,15 +257,12 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
     private void showEventPopup(List<Event> eventList) {
         EventsListAdapter adapter = new EventsListAdapter(context, eventList);
         listPopupWindow.setAdapter(adapter);
-        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Event event = (Event) parent.getItemAtPosition(position);
-                Intent intent = new Intent(context, EventDetailActivity.class);
-                intent.putExtra("event", event);
-                listPopupWindow.dismiss();
-                startActivityForResult(intent, 0);
-            }
+        listPopupWindow.setOnItemClickListener((parent, view, position, id) -> {
+            Event event = (Event) parent.getItemAtPosition(position);
+            Intent intent = new Intent(context, EventDetailActivity.class);
+            intent.putExtra("event", event);
+            listPopupWindow.dismiss();
+            startActivityForResult(intent, 0);
         });
         listPopupWindow.show();
     }
@@ -292,30 +270,21 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
     private void showFriendSearchPopup(List<Friend> potentialFriendList) {
         final FriendListAdapter adapter = new FriendListAdapter(context, potentialFriendList);
         listPopupWindow.setAdapter(adapter);
-        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Friend newFriend = (Friend) parent.getItemAtPosition(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Add " + newFriend.name + " as a friend?");
-                builder.setCancelable(true);
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        databaseThisUser.child("friends").child(newFriend.uid).child("name").setValue(newFriend.name);
-                        searchNameItem.collapseActionView();
-                        listPopupWindow.dismiss();
-                        dialog.cancel();
-                    }
-                });
+        listPopupWindow.setOnItemClickListener((parent, view, position, id) -> {
+            final Friend newFriend = (Friend) parent.getItemAtPosition(position);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage("Add " + newFriend.name + " as a friend?");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Yes", (dialog, id1) -> {
+                databaseThisUser.child("friends").child(newFriend.uid).child("name").setValue(newFriend.name);
+                searchNameItem.collapseActionView();
+                listPopupWindow.dismiss();
+                dialog.cancel();
+            });
 
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-            }
+            builder.setNegativeButton("No", (dialog, id12) -> dialog.cancel());
+            AlertDialog alert = builder.create();
+            alert.show();
         });
         listPopupWindow.setModal(false);
         listPopupWindow.show();
@@ -346,22 +315,12 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                 builder.setMessage("Add " + userSnapshot.child("info/name").getValue().toString() + " as a friend?");
                                 builder.setCancelable(true);
-                                builder.setPositiveButton(
-                                        "Yes",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                databaseThisUser.child("friends").child(userSnapshot.getKey()).child("name").setValue(userSnapshot.child("info/name").getValue().toString());
-                                                searchEmailItem.collapseActionView();
-                                                dialog.cancel();
-                                            }
+                                builder.setPositiveButton("Yes", (dialog, id) -> {
+                                            databaseThisUser.child("friends").child(userSnapshot.getKey()).child("name").setValue(userSnapshot.child("info/name").getValue().toString());
+                                            searchEmailItem.collapseActionView();
+                                            dialog.cancel();
                                         });
-                                builder.setNegativeButton(
-                                        "No",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
+                                builder.setNegativeButton("No", (dialog, id) -> dialog.cancel());
                                 AlertDialog alert = builder.create();
                                 alert.show();
                             }
@@ -374,11 +333,7 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                             builder.setCancelable(true);
                             builder.setPositiveButton(
                                     "Dismiss",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                        }
-                                    });
+                                    (dialog, id) -> dialog.cancel());
                             AlertDialog alert = builder.create();
                             alert.show();
                             Log.e(TAG, "SEARCH: User Not Found for key type " + searchByKey + " " + query);
@@ -443,12 +398,4 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
             }
         }
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        if (listPopupWindow != null) {
-//            listPopupWindow.dismiss();
-//        }
-//        super.onBackPressed();
-//    }
 }

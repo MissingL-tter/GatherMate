@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,33 +47,28 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listViewEvents = (ListView) findViewById(R.id.listViewEvents);
-        listViewEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Event event = (Event) parent.getItemAtPosition(position);
-                Intent intent = new Intent(context, EventDetailActivity.class);
-                intent.putExtra("event", event);
-                startActivityForResult(intent, 0);
-            }
-        });
-
         //Get the UID for this user, the user database, the event database, and initialize friendList
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseThisUser = FirebaseDatabase.getInstance().getReference().child("userdb").child(uid);
         databaseEvents = FirebaseDatabase.getInstance().getReference().child("eventdb");
 
+        listViewEvents = (ListView) findViewById(R.id.listViewEvents);
+
         //Get Events only for friends and yourself
         getFriendEvents();
 
+        listViewEvents.setOnItemClickListener((parent, view, position, id) -> {
+            Event event = (Event) parent.getItemAtPosition(position);
+            Intent intent = new Intent(context, EventDetailActivity.class);
+            intent.putExtra("event", event);
+            startActivityForResult(intent, 0);
+        });
+
         //Find AddEventButton and create listener to start AddEventActivity
         FloatingActionButton addEventButton = (FloatingActionButton) findViewById(R.id.eventAddEventButton);
-        addEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, AddEventActivity.class);
-                startActivity(intent);
-            }
+        addEventButton.setOnClickListener(view -> {
+            Intent intent = new Intent(context, AddEventActivity.class);
+            startActivity(intent);
         });
 
     }
@@ -146,24 +142,30 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
      **/
     private void getFriendEvents() {
         final List<String> friendList = new ArrayList<>();
-        final List<Event> eventList = new ArrayList<>();
 
         //Get friends from the this users database
         databaseThisUser.child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {;
                 friendList.clear();
                 //Add this user to list and populate the list with friends
                 friendList.add(uid);
                 for (DataSnapshot friendSnapshot : dataSnapshot.getChildren()) {
                     friendList.add(friendSnapshot.getKey());
                 }
+
+                getEventsFrom(friendList);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
 
         });
+    }
+
+    private void getEventsFrom(List<String> friendList) {
+        final List<Event> eventList = new ArrayList<>();
 
         //Create listener for events
         eventsEventListener = new ValueEventListener() {
@@ -171,9 +173,10 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             public void onDataChange(DataSnapshot dataSnapshot) {
                 eventList.clear();
                 //Populated only from friend events
-                for(String friend : friendList) {
+                for (String friend : friendList) {
+                    Log.e(TAG, friend);
                     DataSnapshot friendSnapshot = dataSnapshot.child(friend);
-                    for(DataSnapshot eventSnapshot : friendSnapshot.getChildren()){
+                    for (DataSnapshot eventSnapshot : friendSnapshot.getChildren()) {
                         Event event = eventSnapshot.getValue(Event.class);
                         event.uid = friendSnapshot.getKey();
                         event.eventId = eventSnapshot.getKey();
@@ -187,7 +190,8 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
 
         };
 

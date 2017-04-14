@@ -14,19 +14,17 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LocationHandler implements LocationListener{
+public class LocationHandler implements LocationListener {
 
     private static final String TAG = "LOCATION";
 
-    public final String MAPS_API_KEY = "AIzaSyBxZCGrI9rkcMDZnipjqI9MMIswRGAzwso";
+    public final String API_KEY = "AIzaSyBxZCGrI9rkcMDZnipjqI9MMIswRGAzwso";
 
     private Activity context;
     EventsListAdapter contextAdapter;
@@ -70,36 +68,31 @@ public class LocationHandler implements LocationListener{
     }
 
     public void createRequest(final Event event, final TextView travelTimeItem) {
+
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + lat + "," + lng + "&destination=" + event.lat + "," + event.lng + "&key=" + MAPS_API_KEY;
+            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + lat + "," + lng + "&destination=" + event.lat + "," + event.lng + "&key=" + API_KEY;
 
             // Request a string response from the provided URL.
             JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject mapsResponse) {
-                            try {
-                                String travelTime = mapsResponse.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("duration").getString("text");
-                                travelTimeItem.setText(travelTime + " away");
-                            } catch (JSONException e) {
-                                travelTimeItem.setText("");
-                                Log.e(TAG, "Maps Response: No Route Found");
-                            }
+                    mapsResponse -> {
+                        try {
+                            JSONObject duration = mapsResponse.getJSONArray("routes").getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("duration");
+                            travelTimeItem.setText(duration.getString("text") + " away");
+                        } catch (JSONException e) {
+                            travelTimeItem.setText("");
+                            Log.e(TAG, "Maps Response: No Route Found");
                         }
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-
-                        }
+                    error -> {
                     });
             // Add the request to the RequestQueue.
             requestQueue.add(jsonRequest);
 
-        }else {
+        } else {
             travelTimeItem.setText("");
             Log.e(TAG, "No Location Permission");
         }
+
     }
 
     public boolean locationEnabled() {

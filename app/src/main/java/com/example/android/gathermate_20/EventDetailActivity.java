@@ -84,11 +84,7 @@ public class EventDetailActivity extends AppCompatActivity{
         if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(event.uid)) {
             ownerNameView.setText("You");
             deleteButton.setVisibility(View.VISIBLE);
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    deleteEvent(event.uid, event.eventId);
-                }
-            });
+            deleteButton.setOnClickListener(v -> deleteEvent(event.uid, event.eventId));
         } else {
             ownerNameView.setText(event.ownerName);
             deleteButton.setVisibility(View.INVISIBLE);
@@ -98,17 +94,14 @@ public class EventDetailActivity extends AppCompatActivity{
 
         //Navigate
         navigateButton = (Button) findViewById(R.id.navigateToEventButton);
-        navigateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                double lat = event.lat;
-                double lng = event.lng;
+        navigateButton.setOnClickListener(view -> {
+            double lat = event.lat;
+            double lng = event.lng;
 
-                Uri gmmIntentUri = Uri.parse("google.navigation:q="+String.valueOf(lat)+","+String.valueOf(lng));
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
-            }
+            Uri gmmIntentUri = Uri.parse("google.navigation:q="+String.valueOf(lat)+","+String.valueOf(lng));
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
         });
     }
 

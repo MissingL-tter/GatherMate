@@ -43,12 +43,7 @@ public class AddEventActivity extends FragmentActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         createEventButton = (Button) findViewById(R.id.addEventCreateEventButton);
-        createEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createEvent();
-            }
-        });
+        createEventButton.setOnClickListener(view -> createEvent());
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
