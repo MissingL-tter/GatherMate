@@ -305,9 +305,6 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists() && searchByKey.equals("info/email")) {
                             for (final DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                //TODO: Make Better Formatting for PopupWindow, preferably make list beneath search bar
-                                //PopupWindow or something similar
-                                //For now the searchItem view is collapsing only if the user was found and added as a friend
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                 builder.setMessage("Add " + userSnapshot.child("info/name").getValue().toString() + " as a friend?");
                                 builder.setCancelable(true);
@@ -321,9 +318,6 @@ public class FriendsActivity extends AppCompatActivity implements ActivityCompat
                                 alert.show();
                             }
                         } else {
-                            //TODO: Make Better Formatting for PopupWindow, preferably make list beneath search bar
-                            //PopupWindow or something similar
-                            //For now searchItem view stays open if the user was not found
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
                             builder.setMessage("User Not Found");
                             builder.setCancelable(true);

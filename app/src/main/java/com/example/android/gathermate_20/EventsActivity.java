@@ -35,7 +35,6 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
     ListView listViewEvents;
     String uid;
     DatabaseReference databaseEvents;
-    ArrayList<ValueEventListener> friendEventListeners;
     DatabaseReference databaseThisUser;
     MenuItem searchEmailItem;
     MenuItem searchNameItem;
@@ -72,20 +71,6 @@ public class EventsActivity extends AppCompatActivity implements ActivityCompat.
         });
 
     }
-
-//    @Override
-//    public void onStop() {
-//        for(ValueEventListener eventListener : friendEventListeners) {
-//            databaseEvents.removeEventListener(eventListener);
-//        }
-//        super.onStop();
-//    }
-//
-//    public void onRestart() {
-//        super.onRestart();
-//        //Get Events only for friends and yourself
-//        getFriendEvents();
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
