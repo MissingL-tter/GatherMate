@@ -88,8 +88,11 @@ public class AddEventActivity extends FragmentActivity {
                 time,
                 fbUser.getDisplayName(),
                 fbUser.getUid(),
-                eventReference.getKey());
+                eventReference.getKey(),
+                pickedPlace.getPriceLevel());
         eventReference.setValue(event.toHashmap());
+
+
 
         Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();
         finish();

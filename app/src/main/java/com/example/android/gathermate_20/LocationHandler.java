@@ -63,7 +63,7 @@ public class LocationHandler implements LocationListener {
                     lng = location.getLongitude();
                 }
             } else {
-                //TODO: Prompt User to Enable Location
+
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 context.startActivity(intent);
             }

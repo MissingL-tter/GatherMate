@@ -43,6 +43,21 @@
                 android:layout_marginEnd="16dp"
                 android:text="" />
 
+            <TextView
+                android:id="@+id/price_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/listTime"
+                android:layout_below="@+id/listTime"
+                android:text="Price:" />
+
+            <TextView
+                android:id="@+id/price_list_item_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/listTime"
+                android:layout_toEndOf="@+id/price_TV" />
+
 
         </RelativeLayout>
 

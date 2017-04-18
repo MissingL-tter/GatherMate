@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,29 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         //Time
         final TextView timeItem = (TextView) listViewItem.findViewById(R.id.listTime);
         final Calendar calendar = Calendar.getInstance();
+
+        int price = event.priceLevel;
+        TextView priceLevel = (TextView) listViewItem.findViewById(R.id.price_list_item_TV);
+        TextView priceText = (TextView) listViewItem.findViewById(R.id.price_TV);
+        Log.d("PriceTest", String.valueOf(price));
+        switch (price){
+            case 1 :
+                priceLevel.setText(" $");
+                break;
+            case 2 :
+                priceLevel.setText(" $$");
+                break;
+            case 3 :
+                priceLevel.setText(" $$$");
+                break;
+            case 4 :
+                priceLevel.setText(" $$$$");
+                break;
+            default:
+                priceLevel.setVisibility(View.GONE);
+                priceText.setVisibility(View.GONE);
+                
+        }
 
         Long timeUntilEvent = event.time - calendar.getTimeInMillis();
 
