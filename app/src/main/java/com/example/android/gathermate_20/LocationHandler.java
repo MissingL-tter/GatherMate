@@ -10,8 +10,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -30,6 +32,7 @@ public class LocationHandler implements LocationListener {
 
     private Activity context;
     EventsListAdapter contextAdapter;
+    Snackbar snackbar;
 
     LocationManager locationManager;
     Criteria criteria = new Criteria();
@@ -47,14 +50,22 @@ public class LocationHandler implements LocationListener {
         requestQueue = Volley.newRequestQueue(context);
         this.contextAdapter = contextAdapter;
 
+        snackbar = Snackbar.make(context.findViewById(R.id.eventCoordinator), "Location Services Disabled", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Enable", v -> {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            context.startActivity(intent);
+        });
+
         update();
     }
 
     public void update() {
+        //Check permissions
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(context, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 11);
         } else {
             if (locationEnabled()) {
+                //Set provider and get location
                 provider = locationManager.getBestProvider(criteria, true);
                 locationManager.requestLocationUpdates(provider, 1000, 0, this);
                 location = locationManager.getLastKnownLocation(provider);
@@ -62,9 +73,11 @@ public class LocationHandler implements LocationListener {
                     lat = location.getLatitude();
                     lng = location.getLongitude();
                 }
+                //Hide Snackbar if showing
+                snackbar.dismiss();
             } else {
-                //TODO: Prompt User to Enable Location
-                //For now, do nothing.
+                //Show Snackbar if hidden
+                snackbar.show();
             }
         }
     }
@@ -114,9 +127,11 @@ public class LocationHandler implements LocationListener {
 
     @Override
     public void onProviderEnabled(String provider) {
+        update();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
+        update();
     }
 }
