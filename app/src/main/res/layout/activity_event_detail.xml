@@ -22,14 +22,49 @@
         android:layout_below="@+id/toolbar">
 
         <TextView
-            android:id="@+id/detailOwnerName"
+            android:id="@+id/detailVenueName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/detailDetails"
-            android:layout_alignRight="@+id/detailDetails"
-            android:layout_below="@+id/detailDetails"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="Location:" />
+
+        <TextView
+            android:id="@+id/detailVenueNameContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/detailVenueName"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/detailVenueName"
+            android:layout_toRightOf="@+id/detailVenueName"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/detailDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/detailVenueName"
+            android:layout_alignRight="@+id/detailVenueName"
+            android:layout_below="@+id/detailVenueName"
             android:layout_marginTop="16dp"
-            android:text="Owner:" />
+            android:text="Date:" />
+
+        <TextView
+            android:id="@+id/detailDateContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/detailDate"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/detailDate"
+            android:layout_toRightOf="@+id/detailDate"
+            android:text="TextView" />
+
 
         <TextView
             android:id="@+id/detailTime"
@@ -53,25 +88,54 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/detailDateContent"
+            android:id="@+id/detailDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/detailDate"
+            android:layout_alignEnd="@+id/detailTime"
+            android:layout_alignRight="@+id/detailTime"
+            android:layout_below="@+id/detailTime"
+            android:layout_marginTop="16dp"
+            android:text="Details:" />
+
+        <TextView
+            android:id="@+id/detailDetailsContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/detailDetails"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/detailDate"
-            android:layout_toRightOf="@+id/detailDate"
+            android:layout_toEndOf="@+id/detailDetails"
+            android:layout_toRightOf="@+id/detailDetails"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/detailDate"
+            android:id="@+id/detailOwnerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/detailVenueName"
-            android:layout_alignRight="@+id/detailVenueName"
-            android:layout_below="@+id/detailVenueName"
+            android:layout_alignEnd="@+id/detailDetails"
+            android:layout_alignRight="@+id/detailDetails"
+            android:layout_below="@+id/detailDetails"
             android:layout_marginTop="16dp"
-            android:text="Date:" />
+            android:text="Owner:" />
+
+        <TextView
+            android:id="@+id/detailOwnerNameContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/detailOwnerName"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_toRightOf="@+id/detailOwnerName"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/navigateToEventButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detailOwnerNameContent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:text="Navigate" />
 
         <Button
             android:id="@+id/eventDeleteButton"
@@ -87,68 +151,6 @@
             android:text="Delete Event"
             android:visibility="invisible" />
 
-        <TextView
-            android:id="@+id/detailDetailsContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/detailDetails"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/detailDetails"
-            android:layout_toRightOf="@+id/detailDetails"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/detailDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/detailTime"
-            android:layout_alignRight="@+id/detailTime"
-            android:layout_below="@+id/detailTime"
-            android:layout_marginTop="16dp"
-            android:text="Details:" />
-
-        <TextView
-            android:id="@+id/detailVenueNameContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/detailVenueName"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/detailVenueName"
-            android:layout_toRightOf="@+id/detailVenueName"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/detailOwnerNameContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/detailOwnerName"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_toRightOf="@+id/detailOwnerName"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/detailVenueName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:text="Location:" />
-
-        <Button
-            android:id="@+id/navigateToEventButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/detailOwnerNameContent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
-            android:text="Show me the way!" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -54,32 +54,31 @@ public class EventsListAdapter extends ArrayAdapter<Event> {
         final TextView travelTimeItem = (TextView) listViewItem.findViewById(R.id.listTravelTime);
         locationHandler.createRequest(event, travelTimeItem);
 
-        //Time
-        final TextView timeItem = (TextView) listViewItem.findViewById(R.id.listTime);
-        final Calendar calendar = Calendar.getInstance();
-
-        int price = event.priceLevel;
-        TextView priceLevel = (TextView) listViewItem.findViewById(R.id.price_list_item_TV);
-        TextView priceText = (TextView) listViewItem.findViewById(R.id.price_TV);
+        //Price
+        int price = event.venuePrice;
+        TextView priceItem = (TextView) listViewItem.findViewById(R.id.listPrice);
         Log.d("PriceTest", String.valueOf(price));
         switch (price){
             case 1 :
-                priceLevel.setText(" $");
+                priceItem.setText("$");
                 break;
             case 2 :
-                priceLevel.setText(" $$");
+                priceItem.setText("$$");
                 break;
             case 3 :
-                priceLevel.setText(" $$$");
+                priceItem.setText("$$$");
                 break;
             case 4 :
-                priceLevel.setText(" $$$$");
+                priceItem.setText("$$$$");
                 break;
             default:
-                priceLevel.setVisibility(View.GONE);
-                priceText.setVisibility(View.GONE);
+                priceItem.setText("");
                 
         }
+
+        //Time
+        final TextView timeItem = (TextView) listViewItem.findViewById(R.id.listTime);
+        final Calendar calendar = Calendar.getInstance();
 
         Long timeUntilEvent = event.time - calendar.getTimeInMillis();
 

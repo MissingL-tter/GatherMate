@@ -10,14 +10,14 @@ public class Event implements Parcelable {
     public String description, venueName, ownerName, uid, eventId;
     public Double lat, lng;
     public Long time;
-    public int priceLevel;
+    public int venuePrice;
 
     // Here because it has to be
     public Event() {
 
     }
 
-    public Event(String description, String venueName, Double lat, Double lng, Long time, String ownerName, String uid, String eventId, int priceLevel) {
+    public Event(String description, String venueName, Double lat, Double lng, Long time, String ownerName, String uid, String eventId, int venuePrice) {
         this.description = description;
         this.venueName = venueName;
         this.lat = lat;
@@ -26,7 +26,7 @@ public class Event implements Parcelable {
         this.ownerName = ownerName;
         this.uid = uid;
         this.eventId = eventId;
-        this.priceLevel = priceLevel;
+        this.venuePrice = venuePrice;
     }
 
     private Event(Parcel in) {
@@ -41,7 +41,7 @@ public class Event implements Parcelable {
         this.ownerName = data[5];
         this.uid = data[6];
         this.eventId = data[7];
-        this.priceLevel = Integer.parseInt(data[8]);
+        this.venuePrice = Integer.parseInt(data[8]);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Event implements Parcelable {
                 this.ownerName,
                 this.uid,
                 this.eventId,
-                String.valueOf(this.priceLevel)
+                String.valueOf(this.venuePrice)
         });
     }
 
@@ -72,7 +72,7 @@ public class Event implements Parcelable {
         m.put("lat", this.lat);
         m.put("lng", this.lng);
         m.put("time", this.time);
-        m.put("priceLevel", this.priceLevel);
+        m.put("venuePrice", this.venuePrice);
         return m;
     }
 

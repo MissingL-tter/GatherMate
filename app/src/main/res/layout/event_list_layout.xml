@@ -3,10 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,38 +25,31 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/listVenueAndOwner"
-                android:layout_marginBottom="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="Starts in:" />
+
+            <TextView
+                android:id="@+id/listPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"/>
 
             <TextView
                 android:id="@+id/listTravelTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/listTime"
                 android:layout_alignParentEnd="true"
+                android:layout_below="@id/listPrice"
                 android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="" />
 
-            <TextView
-                android:id="@+id/price_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/listTime"
-                android:layout_below="@+id/listTime"
-                android:text="Price:" />
-
-            <TextView
-                android:id="@+id/price_list_item_TV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/listTime"
-                android:layout_toEndOf="@+id/price_TV" />
-
-
         </RelativeLayout>
-
-    </GridLayout>
 
 </LinearLayout>
