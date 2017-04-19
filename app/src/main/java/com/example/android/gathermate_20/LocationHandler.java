@@ -13,7 +13,6 @@ import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -50,7 +49,7 @@ public class LocationHandler implements LocationListener {
         requestQueue = Volley.newRequestQueue(context);
         this.contextAdapter = contextAdapter;
 
-        snackbar = Snackbar.make(context.findViewById(R.id.eventCoordinator), "Location Services Disabled", Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(context.findViewById(R.id.coordinator), "Location Services Disabled", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Enable", v -> {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             context.startActivity(intent);
