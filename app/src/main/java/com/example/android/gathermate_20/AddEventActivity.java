@@ -58,7 +58,6 @@ public class AddEventActivity extends FragmentActivity {
             }
         });
     }
-
     public void setTimeOnClick(View view) {
         timeDialogHandler = new TimeDialogHandler();
         timeDialogHandler.show(getFragmentManager(), "timePicker");
@@ -75,26 +74,40 @@ public class AddEventActivity extends FragmentActivity {
         DatabaseReference eventReference = databaseReference.child("eventdb").child(fbUser.getUid()).push();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(dateDialogHandler.year, dateDialogHandler.month, dateDialogHandler.day, timeDialogHandler.hour, timeDialogHandler.minute);
-        Long time = calendar.getTimeInMillis();
+        Long time = null;
+        if(dateDialogHandler == null && timeDialogHandler == null){
+            Toast.makeText(this, "Please choose a time and date for your event", Toast.LENGTH_LONG).show();
+        }
+        else if(dateDialogHandler == null)
+            Toast.makeText(this, "Please choose a date for your event", Toast.LENGTH_LONG).show();
+        else if(timeDialogHandler == null)
+            Toast.makeText(this, "Please choose a time for your event", Toast.LENGTH_LONG).show();
+        else {
+            calendar.set(dateDialogHandler.year, dateDialogHandler.month, dateDialogHandler.day, timeDialogHandler.hour, timeDialogHandler.minute);
+            time = calendar.getTimeInMillis();
+        }
 
         // TODO: handle null values appropriately (fail or continue safely)
+        if(pickedPlace == null){
+            Toast.makeText(this, "Please enter a valid event location", Toast.LENGTH_LONG).show();
+        }
+        else {
 
-        Event event = new Event(
-                descriptionET.getText().toString(),
-                pickedPlace.getName().toString(),
-                pickedPlace.getLatLng().latitude,
-                pickedPlace.getLatLng().longitude,
-                time,
-                fbUser.getDisplayName(),
-                fbUser.getUid(),
-                eventReference.getKey(),
-                pickedPlace.getPriceLevel());
-        eventReference.setValue(event.toHashmap());
+            Event event = new Event(
+                    descriptionET.getText().toString(),
+                    pickedPlace.getName().toString(),
+                    pickedPlace.getLatLng().latitude,
+                    pickedPlace.getLatLng().longitude,
+                    time,
+                    fbUser.getDisplayName(),
+                    fbUser.getUid(),
+                    eventReference.getKey(),
+                    pickedPlace.getPriceLevel());
+            eventReference.setValue(event.toHashmap());
 
 
-
-        Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();
-        finish();
+            Toast.makeText(this, "Event Created!", Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 }
