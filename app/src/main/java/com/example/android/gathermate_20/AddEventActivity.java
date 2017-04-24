@@ -86,8 +86,6 @@ public class AddEventActivity extends FragmentActivity {
             calendar.set(dateDialogHandler.year, dateDialogHandler.month, dateDialogHandler.day, timeDialogHandler.hour, timeDialogHandler.minute);
             time = calendar.getTimeInMillis();
         }
-
-        // TODO: handle null values appropriately (fail or continue safely)
         if(pickedPlace == null){
             Toast.makeText(this, "Please enter a valid event location", Toast.LENGTH_LONG).show();
         }
