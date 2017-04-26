@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +37,6 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
     private static final String TAG = "EVENT_DETAIL";
 
     private final Activity context = this;
-    private GoogleMap mMap;
 
     Event event;
     TextView venueNameView;
@@ -176,21 +176,20 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney, Australia, and move the camera.
+    public void onMapReady(GoogleMap mMap) {
+        // get locations for user and event
         LatLng eventLoc = new LatLng(event.lat, event.lng);
         LatLng userLoc = new LatLng(userLat,userLong);
+        // put a marker down for user and event
         Marker eventMarker = mMap.addMarker(new MarkerOptions().position(eventLoc).title(event.venueName));
         Marker userMarker = mMap.addMarker(new MarkerOptions().position(userLoc).title("Your Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(eventLoc));
 
+        // animate the camera to show both events on the screen
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(eventMarker.getPosition());
         builder.include(userMarker.getPosition());
         LatLngBounds bounds = builder.build();
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
-
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 300, 225, 0));
     }
 }
