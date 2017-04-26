@@ -19,7 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +40,7 @@ public class LocationHandler implements LocationListener {
 
     Location location;
     RequestQueue requestQueue;
+    //SupportMapFragment mapFragment;
     double lat;
     double lng;
 
@@ -47,6 +48,7 @@ public class LocationHandler implements LocationListener {
         this.context = context;
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         criteria.setPowerRequirement(Criteria.POWER_LOW);
+        //this.mapFragment = mapFragment;
 
         snackbar = Snackbar.make(context.findViewById(R.id.coordinator), "Location Services Disabled", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("Enable", v -> {

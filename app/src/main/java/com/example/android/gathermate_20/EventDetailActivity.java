@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -32,11 +33,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
-public class EventDetailActivity extends FragmentActivity implements OnMapReadyCallback {
+public class EventDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = "EVENT_DETAIL";
 
-    private final Activity context = this;
+    private final EventDetailActivity context = this;
 
     Event event;
     TextView venueNameView;
@@ -48,6 +49,7 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
     Button navigateButton;
 
     LocationHandler locationHandler;
+    SupportMapFragment mapFragment;
     public double userLat;
     public double userLong;
 
@@ -58,16 +60,15 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         Intent intent = getIntent();
         event = intent.getParcelableExtra("event");
-        locationHandler = new LocationHandler(this);
 
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        locationHandler = new LocationHandler(context);
         userLat = locationHandler.lat;
         userLong = locationHandler.lng;
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(context);
 
 
         //Location
@@ -179,4 +180,5 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
         LatLngBounds bounds = builder.build();
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 300, 225, 0));
     }
+
 }
