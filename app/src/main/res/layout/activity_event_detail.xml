@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.gathermate_20.EventDetailActivity">
+    tools:context="com.example.android.gathermate_20.EventDetailActivity"
+    android:id="@+id/coordinator">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,7 +20,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:id="@+id/detail">
 
         <TextView
             android:id="@+id/detailVenueName"
@@ -88,7 +90,7 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/detailDetails"
+            android:id="@+id/detailDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/detailTime"
@@ -98,23 +100,23 @@
             android:text="Details:" />
 
         <TextView
-            android:id="@+id/detailDetailsContent"
+            android:id="@+id/detailDescriptionContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/detailDetails"
+            android:layout_alignTop="@+id/detailDescription"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/detailDetails"
-            android:layout_toRightOf="@+id/detailDetails"
+            android:layout_toEndOf="@+id/detailDescription"
+            android:layout_toRightOf="@+id/detailDescription"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/detailOwnerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/detailDetails"
-            android:layout_alignRight="@+id/detailDetails"
-            android:layout_below="@+id/detailDetails"
+            android:layout_alignEnd="@+id/detailDescription"
+            android:layout_alignRight="@+id/detailDescription"
+            android:layout_below="@+id/detailDescription"
             android:layout_marginTop="16dp"
             android:text="Owner:" />
 
@@ -129,40 +131,34 @@
             android:text="TextView" />
 
         <Button
-            android:id="@+id/navigateToEventButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Navigate"
-            android:layout_below="@+id/detailOwnerNameContent"
-            android:layout_toStartOf="@+id/eventDeleteButton" />
-
-        <Button
             android:id="@+id/eventDeleteButton"
             style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="11dp"
-            android:layout_marginRight="11dp"
+            android:layout_below="@id/detailOwnerName"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true"
             android:text="Delete Event"
             android:visibility="invisible" />
 
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventDeleteButton"
+            tools:context=".MapsActivity" />
+
+        <Button
+            android:id="@+id/navigateToEventButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
+            android:text="Navigate" />
+
     </RelativeLayout>
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="300dp"
-        android:layout_height="225dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="65dp"
-        android:visibility="visible"
-        tools:context=".MapsActivity" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

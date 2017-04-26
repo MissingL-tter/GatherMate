@@ -15,7 +15,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="191dp"
-        android:onClick="googleSignInClick"
         tools:layout_editor_absoluteX="125dp"
         tools:layout_editor_absoluteY="357dp" />
 

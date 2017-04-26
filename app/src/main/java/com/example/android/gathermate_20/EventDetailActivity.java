@@ -47,10 +47,9 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
     Button deleteButton;
     Button navigateButton;
 
-    LocationManager locationManager;
-    Location location;
-    double userLat;
-    double userLong;
+    LocationHandler locationHandler;
+    public double userLat;
+    public double userLong;
 
     private DatabaseReference databaseEvents;
 
@@ -62,25 +61,13 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
         //setSupportActionBar(toolbar);
         Intent intent = getIntent();
         event = intent.getParcelableExtra("event");
+        locationHandler = new LocationHandler(this);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        userLat = location.getLatitude();
-        userLong = location.getLongitude();
+        userLat = locationHandler.lat;
+        userLong = locationHandler.lng;
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(EventDetailActivity.this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
 
         //Location
@@ -112,7 +99,7 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
         timeView.setText(timeText);
 
         //Description
-        descriptionView = (TextView) findViewById(R.id.detailDetailsContent);
+        descriptionView = (TextView) findViewById(R.id.detailDescriptionContent);
         descriptionView.setText(event.description);
 
         //Name
@@ -179,7 +166,7 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
     public void onMapReady(GoogleMap mMap) {
         // get locations for user and event
         LatLng eventLoc = new LatLng(event.lat, event.lng);
-        LatLng userLoc = new LatLng(userLat,userLong);
+        LatLng userLoc = new LatLng(userLat, userLong);
         // put a marker down for user and event
         Marker eventMarker = mMap.addMarker(new MarkerOptions().position(eventLoc).title(event.venueName));
         Marker userMarker = mMap.addMarker(new MarkerOptions().position(userLoc).title("Your Location"));
